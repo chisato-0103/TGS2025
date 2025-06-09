@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement; // シーン遷移に必要
 
-public class GameManager : MonoBehaviour
+public class TitleScreenManager: MonoBehaviour
 {
     public void Update()
     {
