@@ -27,12 +27,6 @@ public class GameManager : MonoBehaviour
         isGameStarted = true;
         Debug.Log("ゲームスタート！");
 
-        // スタートUIを非表示にする
-        if (startUI != null)
-        {
-            startUI.SetActive(false);
-        }
-
         SceneManager.LoadScene("GameScene"); // "GameScene" はゲームプレイ用のシーン名
     }
 }
