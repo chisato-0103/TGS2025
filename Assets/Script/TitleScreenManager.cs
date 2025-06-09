@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement; // シーン遷移に必要
 
 public class TitleScreenManager: MonoBehaviour
 {
-    public void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
