@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // (ここにゲーム開始前の処理があれば記述)
     }
 
     // ボタンがクリックされた時に呼び出される公開メソッド
@@ -34,10 +33,6 @@ public class GameManager : MonoBehaviour
             startUI.SetActive(false);
         }
 
-        // ここにゲーム開始時の処理を記述します
-        // 例：プレイヤーの操作を有効にする、敵を出現させる など
-
-        // もし別のシーンに遷移してゲームを始める場合
-        // SceneManager.LoadScene("GameScene"); // "GameScene" はゲームプレイ用のシーン名
+        SceneManager.LoadScene("GameScene"); // "GameScene" はゲームプレイ用のシーン名
     }
 }
