@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: fca2f302bcc744e10917026ced278e84
+guid: 01d52a9402e9b4ff1a506cd0c61b7cc1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5789502836971564578
-    second: title_img_0
+      213: 3611666250748988498
+    second: animal_gorilla_drumming_0
+  - first:
+      213: 2907429295177352637
+    second: animal_gorilla_drumming_1
+  - first:
+      213: 7913354309265849451
+    second: animal_gorilla_drumming_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +132,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: title_img_0
+      name: animal_gorilla_drumming_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1000
-        height: 557
+        x: 20
+        y: 375
+        width: 80
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +147,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ed1913808dd87afa0800000000000000
-      internalID: -5789502836971564578
+      spriteID: 25c0923d1573f1230800000000000000
+      internalID: 3611666250748988498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animal_gorilla_drumming_1
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 26
+        width: 643
+        height: 749
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db54c9c2a83495820800000000000000
+      internalID: 2907429295177352637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animal_gorilla_drumming_2
+      rect:
+        serializedVersion: 2
+        x: 702
+        y: 279
+        width: 62
+        height: 127
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6cf89941d1e1dd60800000000000000
+      internalID: 7913354309265849451
       vertices: []
       indices: 
       edges: []
@@ -160,8 +210,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      title_img_0: -5789502836971564578
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
