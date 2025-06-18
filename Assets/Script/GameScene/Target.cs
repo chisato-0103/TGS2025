@@ -4,13 +4,10 @@ using UnityEngine;
 
 public class Target : MonoBehaviour
 {
-    // このオブジェクトがマウスでクリックされた時に自動的に呼び出されるメソッド
-    private void OnMouseDown()
+    // このメソッドが外部から呼び出されたら、オブジェクトを破壊する
+    public void Hit()
     {
-        // 動作確認のため、コンソールにメッセージを表示
-        Debug.Log("的「" + gameObject.name + "」がクリックされました！");
-
-        // このゲームオブジェクト（自分自身）をシーンから削除する
+        Debug.Log("的「" + gameObject.name + "」に命中！");
         Destroy(gameObject);
     }
 }
