@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TargetSpawner : MonoBehaviour
 {
-    // [変更点1] 単一のGameObjectから、GameObjectの配列[]に変更
+    // 単一のGameObjectから、GameObjectの配列[]に変更
     [SerializeField]
     private GameObject[] targetPrefabs; // 生成する的のプレハブ（複数形に）
 
@@ -29,7 +29,7 @@ public class TargetSpawner : MonoBehaviour
     {
         while (true)
         {
-            // --- [変更点2] スポーンするプレハブをランダムに選択 ---
+            // --- スポーンするプレハブをランダムに選択 ---
             // 0から、登録されたプレハブの数-1までの間で、ランダムな整数を一つ選ぶ
             int randomIndex = Random.Range(0, targetPrefabs.Length);
 
@@ -41,7 +41,7 @@ public class TargetSpawner : MonoBehaviour
             float randomY = Random.Range(-spawnAreaHeight / 2, spawnAreaHeight / 2);
             Vector3 spawnPosition = new Vector3(randomX, randomY, 0);
 
-            // [変更点3] 先ほどランダムに選んだプレハブ(prefabToSpawn)を生成する
+            // 先ほどランダムに選んだプレハブ(prefabToSpawn)を生成する
             Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity);
 
             yield return new WaitForSeconds(spawnInterval);

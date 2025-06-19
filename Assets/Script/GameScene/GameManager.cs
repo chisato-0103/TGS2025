@@ -3,12 +3,12 @@ using TMPro; // TextMeshProを使用するために必要
 
 public class GameManager : MonoBehaviour
 {
-    // --- スコア関連の変数 (既存) ---
+    // --- スコア関連の変数 ---
     [SerializeField]
     private TextMeshProUGUI scoreText;
     private int currentScore = 0;
 
-    // --- タイマー関連の変数 (ここから追加) ---
+    // --- タイマー関連の変数 ---
     [SerializeField]
     private TextMeshProUGUI timerText; // Inspectorからタイマー表示用UIテキストを設定
 
@@ -17,26 +17,24 @@ public class GameManager : MonoBehaviour
 
     private float currentTime; // 残り時間を保持する変数
     private bool isGameActive; // ゲームがプレイ中かどうかを判定するフラグ
-    // --- ここまで追加 ---
 
 
     // ゲーム開始時に呼ばれる
     void Start()
     {
-        // スコアの初期化 (既存)
+        // スコアの初期化
         currentScore = 0;
         UpdateScoreText();
 
-        // --- タイマーの初期化 (ここから追加) ---
+        // --- タイマーの初期化 ---
         currentTime = timeLimit;
         isGameActive = true;
-        // --- ここまで追加 ---
     }
 
     // 毎フレーム呼ばれる
     void Update()
     {
-        // --- タイマーの更新処理 (ここから追加) ---
+        // --- タイマーの更新処理 ---
         // ゲームがプレイ中でなければ、何もしない
         if (!isGameActive)
         {
@@ -56,14 +54,13 @@ public class GameManager : MonoBehaviour
         }
 
         UpdateTimerText(); // 画面のタイマー表示を更新
-        // --- ここまで追加 ---
     }
 
 
-    // スコアを加算するためのメソッド (既存)
+    // スコアを加算するためのメソッド
     public void AddScore(int points)
     {
-        // ゲーム中でなければスコアは加算しない (追加)
+        // ゲーム中でなければスコアは加算しない
         if (!isGameActive) return;
 
         currentScore += points;
@@ -71,7 +68,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Score: " + currentScore);
     }
 
-    // UIテキストを更新するためのメソッド (既存)
+    // UIテキストを更新するためのメソッド
     private void UpdateScoreText()
     {
         if (scoreText != null)
@@ -80,7 +77,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // --- タイマー表示を更新するメソッド (ここから追加) ---
+    // --- タイマー表示を更新するメソッド ---
     private void UpdateTimerText()
     {
         if (timerText != null)
