@@ -90,5 +90,9 @@ public class GameManager : MonoBehaviour
             timerText.text = string.Format("Time: {0:00}:{1:00}", minutes, seconds);
         }
     }
-    // --- ここまで追加 ---
+
+    public int getCurrentScore()
+    {
+        return currentScore;
+    }
 }
