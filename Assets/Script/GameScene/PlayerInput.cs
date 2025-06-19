@@ -4,27 +4,35 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
+    // [追加] GameManagerへの参照を保持する変数
+    private GameManager gameManager;
+
+    // [追加] StartメソッドでGameManagerを一度だけ探して保持しておく
+    void Start()
+    {
+        // シーン内からGameManagerコンポーネントを探してくる
+        gameManager = FindFirstObjectByType<GameManager>();
+    }
+
     void Update()
     {
-        // マウスの左ボタンがクリックされた瞬間を検知
         if (Input.GetMouseButtonDown(0))
         {
-            // マウスカーソルの位置をカメラから見たゲーム世界の座標に変換
             Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-            // その座標から見えない光線（レイ）を飛ばし、何かに当たったか調べる
             RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
 
-            // もし何かのColliderに当たっていたら
             if (hit.collider != null)
             {
-                // 当たったオブジェクトから "Target" スクリプトを探す
                 Target target = hit.collider.GetComponent<Target>();
-
-                // もし "Target" スクリプトが見つかったら（＝当たったのが的だったら）
                 if (target != null)
                 {
-                    // その的の Hit() メソッドを呼び出す
+                    // [追加] 的を破壊する直前に、スコアを加算する処理を呼び出す
+                    // とりあえず10点加算する
+                    if (gameManager != null)
+                    {
+                        gameManager.AddScore(10);
+                    }
+
                     target.Hit();
                 }
             }
