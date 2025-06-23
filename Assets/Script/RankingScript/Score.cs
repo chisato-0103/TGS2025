@@ -1,0 +1,31 @@
+using UnityEngine;
+using TMPro;
+
+public class Score : MonoBehaviour
+{
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    //GameManager gm = new GameManager();
+    public TextMeshProUGUI ScoreText;
+    float score = 1000.0f;
+    float start = 0.0f;
+    float end = 3.0f;
+    void Start()
+    {
+        //int score = gm.getCurrentScore();
+        ScoreText.text = "";
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (start <= end)
+        {
+            ScoreText.text = (score * start / end).ToString("F0");
+            start += Time.deltaTime;
+        }
+        else
+        {
+            ScoreText.text = score.ToString("F0");
+        }
+    }
+}
