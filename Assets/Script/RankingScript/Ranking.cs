@@ -8,6 +8,7 @@ public class Ranking : MonoBehaviour
     public TextMeshProUGUI RankingText;
     void Start()
     {
+        RankingText.text = "";
         int score = gm.getCurrentScore();
         for (int i = 0; i < 10; i++)
         {
