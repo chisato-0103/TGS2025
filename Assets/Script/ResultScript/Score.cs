@@ -6,11 +6,12 @@ public class Score : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     //GameManager gm = new GameManager();
     public TextMeshProUGUI ScoreText;
-    public float score = 1000.0f;
+    public float score = 0.0f;
     float start = 0.0f;
     float end = 3.0f;
     void Start()
     {
+        score = Random.Range(0.0f, 1000.0f);
         //int score = gm.getCurrentScore();
         ScoreText.text = "";
     }
