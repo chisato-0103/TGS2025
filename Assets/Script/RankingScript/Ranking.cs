@@ -4,28 +4,39 @@ using TMPro;
 public class Ranking : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    GameManager gm = new GameManager();
-    RankingData rd;
+    RankingData rd = new RankingData();
     public TextMeshProUGUI RankingText;
-    void Awake()
-    {
-        rd = new RankingData(gm);
-    }
+
     void Start()
     {
-        rd.RankingChange();
-        RankingText.text = "";
-        //int score = gm.getCurrentScore();
         for (int i = 0; i < 10; i++)
         {
-            if (i + 1 >= 10)
+            rd.RankingChange();
+        }
+        RankingText.text = "";
+        int count = 1;
+        for (int i = 0; i < 10; i++)
+        {
+            if (i != 0 && rd.rscore[i] == rd.rscore[i - 1])
             {
-                RankingText.text += "Ranking:" + (i + 1) + "    PlayerName:" + rd.Pname[i] + "    Score:" + rd.rscore[i] + "\n";
+                RankingText.text += "Ranking:" + count + "      PlayerName:" + rd.Pname[i] + "    Score:" + rd.rscore[i] + "\n";
             }
             else
             {
-                RankingText.text += "Ranking:" + (i + 1) + "      PlayerName:" + rd.Pname[i] + "    Score:" + rd.rscore[i] + "\n";
+                if (i != 0)
+                {
+                    count++;
+                }
+                if (count >= 10)
+                {
+                    RankingText.text += "Ranking:" + count + "    PlayerName:" + rd.Pname[i] + "    Score:" + rd.rscore[i] + "\n";
+                }
+                else
+                {
+                    RankingText.text += "Ranking:" + count + "      PlayerName:" + rd.Pname[i] + "    Score:" + rd.rscore[i] + "\n";
+                }
             }
+
         }
     }
 
