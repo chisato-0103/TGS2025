@@ -2,14 +2,11 @@ using UnityEngine;
 
 public class RankingData
 {
-    GameManager gm = new GameManager();
     public int score = 0;
     public int[] rscore = new int[10];
     public string[] Pname = new string[10];
-    public RankingData(GameManager gm)
+    public RankingData()
     {
-        this.gm = gm;
-        this.score = gm.getCurrentScore();
         for (int i = 0; i < 10; i++)
         {
             rscore[i] = 0;
@@ -19,7 +16,8 @@ public class RankingData
 
     public void RankingChange()
     {
-        this.score = gm.getCurrentScore();
+        //this.score = GameManager.currentScore;
+        this.score = Random.Range(0, 10);
         if (score > rscore[9])
         {
             rscore[9] = score;

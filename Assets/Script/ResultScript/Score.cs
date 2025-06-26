@@ -4,7 +4,6 @@ using TMPro;
 public class Score : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    //GameManager gm = new GameManager();
     public TextMeshProUGUI ScoreText;
     public float score = 0.0f;
     float start = 0.0f;
@@ -12,7 +11,7 @@ public class Score : MonoBehaviour
     void Start()
     {
         score = Random.Range(0.0f, 1000.0f);
-        //int score = gm.getCurrentScore();
+        //score = GameManager.currentScore;
         ScoreText.text = "";
     }
 
