@@ -1,22 +1,20 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
-public class GoriraImage : MonoBehaviour
+public class ResultText : MonoBehaviour
 {
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public TextMeshProUGUI SResultText;
     Score sr;
-    public Image ResultImage;         // 差し替え対象のImage
-    public Sprite loseGorira;         // スコアが低いときの画像
-    public Sprite Gorira;             // 中間
-    public Sprite WinGorira;          // 高スコア
-
     float time = 0.0f;
-
     bool flag = false;
     void Start()
     {
         sr = FindFirstObjectByType<Score>();
-
+        SResultText.text = "";
     }
+
+    // Update is called once per frame
     void Update()
     {
         if (time >= 4.0 && flag == false)
@@ -24,15 +22,15 @@ public class GoriraImage : MonoBehaviour
             // スコアに応じて画像を変更
             if (sr.score >= 800.0f)
             {
-                ResultImage.sprite = WinGorira;
+                SResultText.text = "Parfect!";
             }
             else if (sr.score >= 500.0f)
             {
-                ResultImage.sprite = Gorira;
+                SResultText.text = "Good";
             }
             else
             {
-                ResultImage.sprite = loseGorira;
+                SResultText.text = "Bad";
             }
             flag = true;
         }
