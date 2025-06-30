@@ -210,7 +210,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      animal_gorilla_drumming_0: 3611666250748988498
+      animal_gorilla_drumming_1: 2907429295177352637
+      animal_gorilla_drumming_2: 7913354309265849451
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
