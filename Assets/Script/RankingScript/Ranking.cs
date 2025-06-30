@@ -19,7 +19,7 @@ public class Ranking : MonoBehaviour
         {
             if (i != 0 && rd.rscore[i] == rd.rscore[i - 1])
             {
-                RankingText.text += "Ranking:" + count + "      PlayerName:" + rd.Pname[i] + "    Score:" + rd.rscore[i] + "\n";
+                RankingText.text += "Ranking:" + count + "   PlayerName:" + rd.Pname[i] + " Score:" + rd.rscore[i] + "\n";
             }
             else
             {
@@ -29,11 +29,11 @@ public class Ranking : MonoBehaviour
                 }
                 if (count >= 10)
                 {
-                    RankingText.text += "Ranking:" + count + "    PlayerName:" + rd.Pname[i] + "    Score:" + rd.rscore[i] + "\n";
+                    RankingText.text += "Ranking:" + count + " PlayerName:" + rd.Pname[i] + " Score:" + rd.rscore[i] + "\n";
                 }
                 else
                 {
-                    RankingText.text += "Ranking:" + count + "      PlayerName:" + rd.Pname[i] + "    Score:" + rd.rscore[i] + "\n";
+                    RankingText.text += "Ranking:" + count + "   PlayerName:" + rd.Pname[i] + " Score:" + rd.rscore[i] + "\n";
                 }
             }
 
