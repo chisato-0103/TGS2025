@@ -6,7 +6,8 @@ public class GameManager : MonoBehaviour
     // --- スコア関連の変数 ---
     [SerializeField]
     private TextMeshProUGUI scoreText;
-    private int currentScore = 0;
+    //private int currentScore = 0;
+    public static int currentScore;
 
     // --- タイマー関連の変数 ---
     [SerializeField]
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour
     private float currentTime; // 残り時間を保持する変数
     private bool isGameActive; // ゲームがプレイ中かどうかを判定するフラグ
 
+    public static GameManager Instance;  // ★追加：誰でもアクセスできる
 
     // ゲーム開始時に呼ばれる
     void Start()
