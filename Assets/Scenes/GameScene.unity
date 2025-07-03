@@ -526,7 +526,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreText: {fileID: 1394282777}
   timerText: {fileID: 97749164}
-  timeLimit: 180
+  timeLimit: 90
 --- !u!1 &969263382
 GameObject:
   m_ObjectHideFlags: 0
