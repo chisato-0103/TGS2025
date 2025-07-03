@@ -217,6 +217,32 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -1047,7 +1073,44 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      pngtree-wooden-toy-slingshot-png-image_6733631_0: 7340456227531822514
+      pngtree-wooden-toy-slingshot-png-image_6733631_1: 8152719053980121532
+      pngtree-wooden-toy-slingshot-png-image_6733631_10: -6718192524700888854
+      pngtree-wooden-toy-slingshot-png-image_6733631_11: 3583935202317379368
+      pngtree-wooden-toy-slingshot-png-image_6733631_12: 7040904928085861641
+      pngtree-wooden-toy-slingshot-png-image_6733631_13: 8388985211384179085
+      pngtree-wooden-toy-slingshot-png-image_6733631_14: -3827737987951157034
+      pngtree-wooden-toy-slingshot-png-image_6733631_15: -5446606167668916978
+      pngtree-wooden-toy-slingshot-png-image_6733631_16: 5434318829749113333
+      pngtree-wooden-toy-slingshot-png-image_6733631_17: 3208994648862582509
+      pngtree-wooden-toy-slingshot-png-image_6733631_18: 1389031591646086445
+      pngtree-wooden-toy-slingshot-png-image_6733631_19: 5574054066115918646
+      pngtree-wooden-toy-slingshot-png-image_6733631_2: 318121939182502575
+      pngtree-wooden-toy-slingshot-png-image_6733631_20: 1689592950389218587
+      pngtree-wooden-toy-slingshot-png-image_6733631_21: -6485756206815464143
+      pngtree-wooden-toy-slingshot-png-image_6733631_22: -4295067312461872876
+      pngtree-wooden-toy-slingshot-png-image_6733631_23: 6989443327455639251
+      pngtree-wooden-toy-slingshot-png-image_6733631_24: -6878944259641553603
+      pngtree-wooden-toy-slingshot-png-image_6733631_25: -5582670730724882148
+      pngtree-wooden-toy-slingshot-png-image_6733631_26: -7025312872544353930
+      pngtree-wooden-toy-slingshot-png-image_6733631_27: -5080549265470083961
+      pngtree-wooden-toy-slingshot-png-image_6733631_28: -3731958639238698586
+      pngtree-wooden-toy-slingshot-png-image_6733631_29: -6982063932193747991
+      pngtree-wooden-toy-slingshot-png-image_6733631_3: -2266370818461910439
+      pngtree-wooden-toy-slingshot-png-image_6733631_30: 7421086450150625584
+      pngtree-wooden-toy-slingshot-png-image_6733631_31: -592502370133531455
+      pngtree-wooden-toy-slingshot-png-image_6733631_32: 6696054013651352159
+      pngtree-wooden-toy-slingshot-png-image_6733631_33: 8378422599897054556
+      pngtree-wooden-toy-slingshot-png-image_6733631_34: 6349463508092455209
+      pngtree-wooden-toy-slingshot-png-image_6733631_35: -8003673709748848255
+      pngtree-wooden-toy-slingshot-png-image_6733631_36: 738581799917136762
+      pngtree-wooden-toy-slingshot-png-image_6733631_4: -502285498633677208
+      pngtree-wooden-toy-slingshot-png-image_6733631_5: -7305054365889972639
+      pngtree-wooden-toy-slingshot-png-image_6733631_6: -6299697452381696734
+      pngtree-wooden-toy-slingshot-png-image_6733631_7: -8593485491760610705
+      pngtree-wooden-toy-slingshot-png-image_6733631_8: 4999258626059896629
+      pngtree-wooden-toy-slingshot-png-image_6733631_9: 6532210607731053181
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
