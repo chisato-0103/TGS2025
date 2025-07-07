@@ -14,12 +14,12 @@ public class GoriraImage : MonoBehaviour
     bool flag = false;
     void Start()
     {
-        sr = FindFirstObjectByType<Score>(); //Score Scriptにある点数を持ってくるためのもの
+        sr = FindFirstObjectByType<Score>();
 
     }
     void Update()
     {
-        if (time >= 4.0 && flag == false)//4秒を超えるかつ一回も使われたことがないなら動かす
+        if (time >= 4.0 && flag == false)
         {
             // スコアに応じて画像を変更
             if (sr.score >= 800.0f)
@@ -34,11 +34,11 @@ public class GoriraImage : MonoBehaviour
             {
                 ResultImage.sprite = loseGorira;
             }
-            flag = true;//2回目に使われないように一回使われた証を残す
+            flag = true;
         }
         else
         {
-            time += Time.deltaTime;//時間を計測
+            time += Time.deltaTime;
         }
     }
 }

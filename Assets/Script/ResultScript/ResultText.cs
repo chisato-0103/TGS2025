@@ -6,12 +6,12 @@ public class ResultText : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public TextMeshProUGUI SResultText;
     Score sr;
-    float time = 0.0f; //時間計測用の変数
-    bool flag = false; //４秒を過ぎた後に繰り返させないための変数
+    float time = 0.0f;
+    bool flag = false;
     void Start()
     {
-        sr = FindFirstObjectByType<Score>(); //Score Scriptに入っているScoreの点数を持ってくる
-        SResultText.text = ""; //一旦テキストの中身を空に
+        sr = FindFirstObjectByType<Score>();
+        SResultText.text = "";
     }
 
     // Update is called once per frame
@@ -19,7 +19,7 @@ public class ResultText : MonoBehaviour
     {
         if (time >= 4.0 && flag == false)
         {
-            // スコアに応じてテキストを変更
+            // スコアに応じて画像を変更
             if (sr.score >= 800.0f)
             {
                 SResultText.text = "Parfect!";
@@ -32,7 +32,7 @@ public class ResultText : MonoBehaviour
             {
                 SResultText.text = "Bad";
             }
-            flag = true;//2回目を繰り返さないためにflagをtrueに
+            flag = true;
         }
         else
         {
