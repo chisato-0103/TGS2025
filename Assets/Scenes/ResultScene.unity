@@ -269,9 +269,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SResultText: {fileID: 728967602}
-  sr: {fileID: 0}
-  time: 0
-  flag: 0
 --- !u!1 &763325285
 GameObject:
   m_ObjectHideFlags: 0
@@ -819,8 +816,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScoreText: {fileID: 1506144962}
   score: 1000
-  start: 0
-  end: 3
 --- !u!1 &2143772284
 GameObject:
   m_ObjectHideFlags: 0
@@ -909,13 +904,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c2d6dbb48362409aadddd20fb1b553a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sr: {fileID: 0}
   ResultImage: {fileID: 2143772286}
   loseGorira: {fileID: 5210090049575373572, guid: 020a16276606f45338bd932b7508d661, type: 3}
   Gorira: {fileID: 8419875006345092931, guid: 017c62713a75a470e910420cc0aad83e, type: 3}
   WinGorira: {fileID: -686625063596857371, guid: c48bd7ddb69a547aab078f66848910ce, type: 3}
-  time: 0
-  flag: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
