@@ -1,16 +1,28 @@
 fileFormatVersion: 2
-guid: c6931ae8dbe994b02b292807c5e605bb
+guid: c48bd7ddb69a547aab078f66848910ce
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3611666250748988498
-    second: animal_gorilla_drumming_0
+      213: -499052990662390675
+    second: winGorira_0
   - first:
-      213: 2907429295177352637
-    second: animal_gorilla_drumming_1
+      213: -7164112171784349840
+    second: winGorira_1
   - first:
-      213: 7913354309265849451
-    second: animal_gorilla_drumming_2
+      213: -686625063596857371
+    second: winGorira_2
+  - first:
+      213: 4402063003742641673
+    second: winGorira_3
+  - first:
+      213: 8984054699045077652
+    second: winGorira_4
+  - first:
+      213: -7772124930337569590
+    second: winGorira_5
+  - first:
+      213: 8076070582690495960
+    second: winGorira_6
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -119,13 +131,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: animal_gorilla_drumming_0
+      name: winGorira_0
       rect:
         serializedVersion: 2
-        x: 20
-        y: 375
-        width: 80
-        height: 128
+        x: 15
+        y: 683
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,20 +146,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 25c0923d1573f1230800000000000000
-      internalID: 3611666250748988498
+      spriteID: d6cc877f2f10319f0800000000000000
+      internalID: -499052990662390675
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: animal_gorilla_drumming_1
+      name: winGorira_1
       rect:
         serializedVersion: 2
-        x: 68
-        y: 26
-        width: 643
-        height: 749
+        x: 36
+        y: 663
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -156,20 +168,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: db54c9c2a83495820800000000000000
-      internalID: 2907429295177352637
+      spriteID: 077ddb5dfe5f39c90800000000000000
+      internalID: -7164112171784349840
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: animal_gorilla_drumming_2
+      name: winGorira_2
       rect:
         serializedVersion: 2
-        x: 702
-        y: 279
-        width: 62
-        height: 127
+        x: 79
+        y: 0
+        width: 879
+        height: 1042
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -178,8 +190,96 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b6cf89941d1e1dd60800000000000000
-      internalID: 7913354309265849451
+      spriteID: 5e7ed6e742e9876f0800000000000000
+      internalID: -686625063596857371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: winGorira_3
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 642
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90e18f09af4471d30800000000000000
+      internalID: 4402063003742641673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: winGorira_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 610
+        width: 24
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 492c2433626cdac70800000000000000
+      internalID: 8984054699045077652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: winGorira_5
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 605
+        width: 25
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac48549ed8dd32490800000000000000
+      internalID: -7772124930337569590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: winGorira_6
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 599
+        width: 25
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ddbf36f767f31070800000000000000
+      internalID: 8076070582690495960
       vertices: []
       indices: 
       edges: []
