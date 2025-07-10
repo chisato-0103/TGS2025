@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 76ed55a40ae1549cf9575c07cb3459c9
+guid: 020a16276606f45338bd932b7508d661
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4718715016351118006
-    second: publicdomainq-0035140gucajn_0
+      213: 1811660063253062873
+    second: loseGorira_0
+  - first:
+      213: 5210090049575373572
+    second: loseGorira_1
+  - first:
+      213: 593272151170977733
+    second: loseGorira_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +119,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: publicdomainq-0035140gucajn_0
+      name: loseGorira_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 0
-        width: 3839
-        height: 2850
+        x: 3
+        y: 467
+        width: 143
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +134,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a4d071681b1c38eb0800000000000000
-      internalID: -4718715016351118006
+      spriteID: 9d4e5fb9a3f442910800000000000000
+      internalID: 1811660063253062873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loseGorira_1
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 117
+        width: 656
+        height: 567
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40bccbcbb45fd4840800000000000000
+      internalID: 5210090049575373572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: loseGorira_2
+      rect:
+        serializedVersion: 2
+        x: 654
+        y: 466
+        width: 143
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5cf8da1d0e9bb3800800000000000000
+      internalID: 593272151170977733
       vertices: []
       indices: 
       edges: []
