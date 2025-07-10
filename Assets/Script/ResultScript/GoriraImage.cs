@@ -18,7 +18,7 @@ public class GoriraImage : MonoBehaviour
     }
     void Update()
     {
-        if (time >= 4.0 && flag == false)
+        if (time >= 5.0 && flag == false)
         {
             // スコアに応じて画像を変更
             if (sr.score >= sr.high)
