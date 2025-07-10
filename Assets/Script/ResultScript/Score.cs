@@ -7,12 +7,11 @@ public class Score : MonoBehaviour
     public TextMeshProUGUI ScoreText;
     public float score = 0.0f;
     float start = 0.0f; //今の時間を記録する
-    float end = 3.0f; //終了時刻
+    float end = 4.0f; //終了時刻
     public float high = 800.0f, middle = 500.0f; //外部からもいじれるようにスコアの判定ラインをパブリックにする
     void Start()
     {
-        score = Random.Range(0.0f, 1000.0f);
-        //score = GameManager.currentScore;
+        score = GameManager.currentScore;
         ScoreText.text = ""; //ここでテキストの中身を初期化
     }
 

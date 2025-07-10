@@ -17,7 +17,7 @@ public class ResultText1 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (time >= 4.0 && flag == false)
+        if (time >= 9.0 && flag == false)
         {
             // スコアに応じて画像を変更
             if (sr.score >= 800.0f)

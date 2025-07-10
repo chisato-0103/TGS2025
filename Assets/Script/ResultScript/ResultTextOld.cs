@@ -1,10 +1,10 @@
 using UnityEngine;
-using TMPro;
+using UnityEngine.UI; 
 
-public class ResultText : MonoBehaviour
+public class ResultTextOld : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public TextMeshProUGUI SResultText;
+    public Text SResultText;
     Score sr;
     float time = 0.0f;
     bool flag = false;
@@ -19,18 +19,18 @@ public class ResultText : MonoBehaviour
     {
         if (time >= 5.0 && flag == false)
         {
-            // スコアに応じて画像を変更
+            // スコアに応じて言葉を変更
             if (sr.score >= sr.high)
             {
-                SResultText.text = "Parfect!";
+                SResultText.text = "すごい！";
             }
             else if (sr.score >= sr.middle)
             {
-                SResultText.text = "Good";
+                SResultText.text = "いいね！";
             }
             else
             {
-                SResultText.text = "Bad";
+                SResultText.text = "頑張った";
             }
             flag = true;
         }
@@ -40,3 +40,4 @@ public class ResultText : MonoBehaviour
         }
     }
 }
+
