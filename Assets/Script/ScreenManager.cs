@@ -16,4 +16,11 @@ public class ScreenManager: MonoBehaviour
 
         SceneManager.LoadScene("GameScene"); // "GameScene" はゲームプレイ用のシーン名
     }
+
+    // ゲーム終了時にResultSceneへ遷移するメソッド
+    public void GoToResultScene()
+    {
+        Debug.Log("リザルト画面へ遷移");
+        SceneManager.LoadScene("ResultScene"); // "ResultScene" はリザルト用のシーン名
+    }
 }
