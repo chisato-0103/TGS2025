@@ -52,7 +52,16 @@ public class GameManager : MonoBehaviour
             currentTime = 0; // マイナス表示を防ぐ
             isGameActive = false; // ゲームを非アクティブにする
             Debug.Log("ゲーム終了！");
-            // ここにゲームオーバー処理を追加していく
+            // ScreenManagerを探してResultSceneへ遷移
+            ScreenManager screenManager = FindObjectOfType<ScreenManager>();
+            if (screenManager != null)
+            {
+                screenManager.GoToResultScene();
+            }
+            else
+            {
+                Debug.LogError("ScreenManagerが見つかりませんでした");
+            }
         }
 
         UpdateTimerText(); // 画面のタイマー表示を更新
