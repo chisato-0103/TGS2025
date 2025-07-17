@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement; // シーン遷移に必要
 
-public class ScreenManager: MonoBehaviour
+public class ScreenManager : MonoBehaviour
 {
     private void Update()
     {
@@ -22,5 +22,18 @@ public class ScreenManager: MonoBehaviour
     {
         Debug.Log("リザルト画面へ遷移");
         SceneManager.LoadScene("ResultScene"); // "ResultScene" はリザルト用のシーン名
+    }
+
+    //リザルトシーンからRankingSceneへ移動するメソッド
+    public void GoToRankingScene()
+    {
+        Debug.Log("ランキンング画面へ遷移");
+        SceneManager.LoadScene("RankingScene"); // "ResultScene" はリザルト用のシーン名
+    }
+    
+    public void GoToTitleScene()
+    {
+        Debug.Log("タイトル画面へ遷移");
+        SceneManager.LoadScene("TitleScene"); // "ResultScene" はリザルト用のシーン名
     }
 }
