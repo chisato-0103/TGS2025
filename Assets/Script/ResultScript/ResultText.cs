@@ -19,7 +19,7 @@ public class ResultText : MonoBehaviour
     {
         if (time >= 5.0 && flag == false)
         {
-            // スコアに応じて画像を変更
+            // スコアに応じて言葉を変更
             if (sr.score >= sr.high)
             {
                 SResultText.text = "Parfect!";

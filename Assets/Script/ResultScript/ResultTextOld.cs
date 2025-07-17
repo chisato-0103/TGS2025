@@ -8,10 +8,13 @@ public class ResultTextOld : MonoBehaviour
     Score sr;
     float time = 0.0f;
     bool flag = false;
+    Button btn;
     void Start()
     {
         sr = FindFirstObjectByType<Score>(); //ScoreScriptにあるscoreを使うためにオブジェクト検索をかけている
         SResultText.text = "";
+        btn = GameObject.Find("RankingChange").GetComponent<Button>();
+        btn.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -32,6 +35,7 @@ public class ResultTextOld : MonoBehaviour
             {
                 SResultText.text = "頑張った";
             }
+            btn.gameObject.SetActive(true);
             flag = true;
         }
         else
