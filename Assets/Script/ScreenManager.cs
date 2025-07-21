@@ -3,13 +3,6 @@ using UnityEngine.SceneManagement; // シーン遷移に必要
 
 public class ScreenManager : MonoBehaviour
 {
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            StartGame();
-        }
-    }
     public void StartGame()
     {
         Debug.Log("ゲームスタート！");

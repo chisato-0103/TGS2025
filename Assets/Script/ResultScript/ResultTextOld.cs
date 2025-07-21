@@ -6,21 +6,17 @@ public class ResultTextOld : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public Text SResultText;
     Score sr;
-    float time = 0.0f;
     bool flag = false;
-    Button btn;
     void Start()
     {
         sr = FindFirstObjectByType<Score>(); //ScoreScriptにあるscoreを使うためにオブジェクト検索をかけている
         SResultText.text = "";
-        btn = GameObject.Find("RankingChange").GetComponent<Button>();
-        btn.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (time >= 5.0 && flag == false)
+        if (sr.time >= 5.0 && flag == false)
         {
             // スコアに応じて言葉を変更
             if (sr.score >= sr.high)
@@ -35,12 +31,11 @@ public class ResultTextOld : MonoBehaviour
             {
                 SResultText.text = "頑張った";
             }
-            btn.gameObject.SetActive(true);
             flag = true;
         }
         else
         {
-            time += Time.deltaTime;
+            sr.time += Time.deltaTime;
         }
     }
 }
