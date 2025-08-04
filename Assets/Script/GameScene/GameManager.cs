@@ -42,6 +42,10 @@ public class GameManager : MonoBehaviour
     private GameObject feverVideoUI; // 動画表示用のRawImageのGameObject
 
     private bool isFeverActive = false; // フィーバーモードが有効かどうか
+
+    // --- BGM関連の変数 ---
+    [SerializeField]
+    private AudioSource bgmAudioSource; // BGM再生用のAudioSource
     // ゲーム開始時に呼ばれる
     void Start()
     {
@@ -59,6 +63,9 @@ public class GameManager : MonoBehaviour
             var rect = comboGauge.GetComponent<RectTransform>();
             rect.sizeDelta = new Vector2(0f, rect.sizeDelta.y);
         }
+
+        // BGMの開始
+        StartBGM();
     }
 
     // 毎フレーム呼ばれる
@@ -209,20 +216,11 @@ public class GameManager : MonoBehaviour
         isFeverActive = true;
         Debug.Log("フィーバーモード開始！");
 
-        // 動画とオーディオの設定をデバッグ出力
-        Debug.Log("動画ファイル: " + (feverVideoPlayer.clip != null ? feverVideoPlayer.clip.name : "null"));
-        Debug.Log("オーディオトラック数: " + feverVideoPlayer.audioTrackCount);
-        Debug.Log("Audio Output Mode: " + feverVideoPlayer.audioOutputMode);
-        Debug.Log("Audio Source: " + (feverVideoPlayer.GetTargetAudioSource(0) != null ? "設定済み" : "null"));
-
         // 動画UIを表示
         feverVideoUI.SetActive(true);
 
-        // VideoPlayerが準備できるまで待機してから再生
-        StartCoroutine(PlayVideoWithAudio());
-        
-        // 動画再生開始後に音声が正しく再生されているかチェック
-        StartCoroutine(CheckAudioPlayback());
+        // 動画再生開始
+        feverVideoPlayer.Play();
 
         // 動画終了時のコールバックを設定
         feverVideoPlayer.loopPointReached += OnFeverVideoEnd;
@@ -253,58 +251,35 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // VideoPlayerを正しく準備してから再生するコルーチン
-    IEnumerator PlayVideoWithAudio()
+
+    // --- BGM制御メソッド ---
+    private void StartBGM()
     {
-        // VideoPlayerの準備
-        feverVideoPlayer.audioOutputMode = VideoAudioOutputMode.AudioSource;
-        feverVideoPlayer.SetTargetAudioSource(0, feverVideoPlayer.GetComponent<AudioSource>());
-        feverVideoPlayer.EnableAudioTrack(0, true);
-        feverVideoPlayer.Prepare();
-        
-        // VideoPlayerの準備が完了するまで待機
-        while (!feverVideoPlayer.isPrepared)
+        if (bgmAudioSource != null && bgmAudioSource.clip != null)
         {
-            yield return null;
+            bgmAudioSource.Play();
+            Debug.Log("BGM開始: " + bgmAudioSource.clip.name);
         }
-        
-        Debug.Log("VideoPlayer準備完了");
-        
-        // 音声設定
-        feverVideoPlayer.SetDirectAudioVolume(0, 1.0f);
-        feverVideoPlayer.SetDirectAudioMute(0, false);
-        
-        // AudioSourceの設定
-        AudioSource audioSource = feverVideoPlayer.GetTargetAudioSource(0);
-        if (audioSource != null)
+        else
         {
-            audioSource.volume = 1.0f;
-            audioSource.mute = false;
+            Debug.LogWarning("BGM AudioSourceまたはAudioClipが設定されていません");
         }
-        
-        // 動画再生開始
-        feverVideoPlayer.Play();
-        
-        // 少し待ってから音声状況をチェック
-        yield return new WaitForSeconds(0.5f);
-        StartCoroutine(CheckAudioPlayback());
     }
 
-    // 音声再生状況をチェックするコルーチン
-    IEnumerator CheckAudioPlayback()
+    public void StopBGM()
     {
-        if (feverVideoPlayer.isPlaying)
+        if (bgmAudioSource != null)
         {
-            Debug.Log("VideoPlayer再生中: " + feverVideoPlayer.isPlaying);
-            Debug.Log("音声トラック有効: " + feverVideoPlayer.IsAudioTrackEnabled(0));
-            
-            AudioSource audioSource = feverVideoPlayer.GetTargetAudioSource(0);
-            if (audioSource != null)
-            {
-                Debug.Log("AudioSource再生中: " + audioSource.isPlaying);
-                Debug.Log("AudioSourceクリップ: " + (audioSource.clip != null ? audioSource.clip.name : "null"));
-            }
+            bgmAudioSource.Stop();
+            Debug.Log("BGM停止");
         }
-        yield return null;
+    }
+
+    public void SetBGMVolume(float volume)
+    {
+        if (bgmAudioSource != null)
+        {
+            bgmAudioSource.volume = Mathf.Clamp01(volume);
+        }
     }
 }
