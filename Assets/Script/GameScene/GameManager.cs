@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
 
         currentScore += points;
         UpdateScoreText();
-        Debug.Log("Score: " + currentScore);
+        Debug.Log("討伐数: " + currentScore + "体");
     }
 
     // UIテキストを更新するためのメソッド
@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviour
     {
         if (scoreText != null)
         {
-            scoreText.text = "Score: " + currentScore;
+            scoreText.text = currentScore + "体";
         }
     }
 
