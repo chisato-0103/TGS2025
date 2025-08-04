@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
 
         currentScore += points;
         UpdateScoreText();
-        Debug.Log("討伐数: " + currentScore + "体");
+        Debug.Log(currentScore);
     }
 
     // UIテキストを更新するためのメソッド
@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviour
     {
         if (scoreText != null)
         {
-            scoreText.text = currentScore + "体";
+            scoreText.text = currentScore.ToString();
         }
     }
 
@@ -133,7 +133,7 @@ public class GameManager : MonoBehaviour
             int seconds = Mathf.FloorToInt(currentTime % 60);
 
             // "00:00" の形式でテキストを表示
-            timerText.text = string.Format("Time: {0:00}:{1:00}", minutes, seconds);
+            timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
         }
     }
 
