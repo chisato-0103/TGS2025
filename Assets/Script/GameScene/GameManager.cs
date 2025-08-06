@@ -46,9 +46,18 @@ public class GameManager : MonoBehaviour
     // --- BGM関連の変数 ---
     [SerializeField]
     private AudioSource bgmAudioSource; // BGM再生用のAudioSource
+
+    // --- フィーバータイム関連の変数 ---
+    [SerializeField]
+    private float comboGaugeDecreaseRate = 2f; // フィーバー中のゲージ減少レート（1秒あたり）
+    
+    private Coroutine feverGaugeDecreaseCoroutine; // ゲージ減少コルーチン
     // ゲーム開始時に呼ばれる
     void Start()
     {
+        // FPSを60に固定
+        Application.targetFrameRate = 60;
+        
         // スコアの初期化
         currentScore = 0;
         UpdateScoreText();
@@ -152,10 +161,20 @@ public class GameManager : MonoBehaviour
         {
             feverVideoPlayer.Prepare();
         }
+        
+        // Singletonの設定
+        Instance = this;
     }
 
     // コンボ成立時にゲージを増やす
     public void AddCombo(int combo){
+        // フィーバーモード中はゲージ増加を停止
+        if (isFeverActive)
+        {
+            Debug.Log("フィーバーモード中のためゲージ増加をスキップ");
+            return;
+        }
+        
         // combo値分ゲージを増やす
         currentCombo += combo;
         float addWidth = combo1 * combo; // 追加するコンボ分だけの幅を計算
@@ -224,12 +243,21 @@ public class GameManager : MonoBehaviour
 
         // 動画終了時のコールバックを設定
         feverVideoPlayer.loopPointReached += OnFeverVideoEnd;
+        
+        // TargetSpawnerにフィーバー開始を通知
+        TargetSpawner spawner = FindFirstObjectByType<TargetSpawner>();
+        if (spawner != null)
+        {
+            spawner.StartFeverMode();
+        }
+        
+        // コンボゲージ減少は動画終了後に開始（動画終了コールバックで開始）
     }
 
     // 動画終了時の処理
     private void OnFeverVideoEnd(VideoPlayer vp)
     {
-        Debug.Log("フィーバー動画終了");
+        Debug.Log("フィーバー動画終了 - ゲージ減少開始");
 
         // 動画UIを非表示
         feverVideoUI.SetActive(false);
@@ -237,8 +265,15 @@ public class GameManager : MonoBehaviour
         // コールバックを解除
         feverVideoPlayer.loopPointReached -= OnFeverVideoEnd;
 
-        // フィーバーモード終了
-        isFeverActive = false;
+        // 動画終了後にゲージ減少開始
+        feverGaugeDecreaseCoroutine = StartCoroutine(DecreaseComboGaugeDuringFever());
+        
+        // TargetSpawnerにfemale-gorilla生成開始を通知
+        TargetSpawner spawner = FindFirstObjectByType<TargetSpawner>();
+        if (spawner != null)
+        {
+            spawner.StartFemaleGorillaSpawn();
+        }
     }
 
     // フィーバーモードを手動で停止する場合のメソッド
@@ -280,6 +315,60 @@ public class GameManager : MonoBehaviour
         if (bgmAudioSource != null)
         {
             bgmAudioSource.volume = Mathf.Clamp01(volume);
+        }
+    }
+    
+    // フィーバーモード終了処理
+    private void EndFeverMode()
+    {
+        isFeverActive = false;
+        
+        // ゲージ減少を停止
+        if (feverGaugeDecreaseCoroutine != null)
+        {
+            StopCoroutine(feverGaugeDecreaseCoroutine);
+            feverGaugeDecreaseCoroutine = null;
+        }
+        
+        // TargetSpawnerにフィーバー終了を通知
+        TargetSpawner spawner = FindFirstObjectByType<TargetSpawner>();
+        if (spawner != null)
+        {
+            spawner.EndFeverMode();
+        }
+    }
+    
+    
+    // フィーバータイム中のコンボゲージ減少
+    private IEnumerator DecreaseComboGaugeDuringFever()
+    {
+        while (isFeverActive)
+        {
+            // ゲージの幅を減少
+            Vector2 nowSize = comboGauge.GetComponent<RectTransform>().sizeDelta;
+            float decreaseAmount = combo1 * comboGaugeDecreaseRate * Time.deltaTime;
+            nowSize.x -= decreaseAmount;
+            
+            // 0以下になったらフィーバー終了
+            if (nowSize.x <= 0)
+            {
+                nowSize.x = 0;
+                currentCombo = 0;
+                comboGauge.GetComponent<RectTransform>().sizeDelta = nowSize;
+                
+                Debug.Log("ゲージが完全に0に到達 - フィーバー終了");
+                // ゲージが0になったのでフィーバー終了
+                EndFeverMode();
+                break;
+            }
+            
+            // ゲージに反映
+            comboGauge.GetComponent<RectTransform>().sizeDelta = nowSize;
+            
+            // コンボ数を更新
+            currentCombo = Mathf.RoundToInt(nowSize.x / combo1);
+            
+            yield return null;
         }
     }
 }
