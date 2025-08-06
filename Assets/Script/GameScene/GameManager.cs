@@ -43,9 +43,6 @@ public class GameManager : MonoBehaviour
 
     private bool isFeverActive = false; // フィーバーモードが有効かどうか
 
-    // --- BGM関連の変数 ---
-    [SerializeField]
-    private AudioSource bgmAudioSource; // BGM再生用のAudioSource
 
     // --- フィーバータイム関連の変数 ---
     [SerializeField]
@@ -73,8 +70,6 @@ public class GameManager : MonoBehaviour
             rect.sizeDelta = new Vector2(0f, rect.sizeDelta.y);
         }
 
-        // BGMの開始
-        StartBGM();
     }
 
     // 毎フレーム呼ばれる
@@ -235,13 +230,25 @@ public class GameManager : MonoBehaviour
         isFeverActive = true;
         Debug.Log("フィーバーモード開始！");
 
+        // 動画中は全てのBGMを一時停止
+        if (BGMManager.Instance != null)
+        {
+            BGMManager.Instance.PauseNormalBGM();
+            BGMManager.Instance.StopFeverBGM(); // フィーバーBGMはそもそも再生中ではない
+        }
+
         // 動画UIを表示
         feverVideoUI.SetActive(true);
 
-        // 動画再生開始
-        feverVideoPlayer.Play();
+        // VideoPlayerの設定を確実にしてから再生
+        if (feverVideoPlayer != null)
+        {
+            feverVideoPlayer.isLooping = false; // ループしないように設定
+            feverVideoPlayer.Play();
+        }
 
-        // 動画終了時のコールバックを設定
+        // 動画終了時のコールバックを設定（既存のコールバックを一度クリア）
+        feverVideoPlayer.loopPointReached -= OnFeverVideoEnd; // 重複登録防止
         feverVideoPlayer.loopPointReached += OnFeverVideoEnd;
         
         // TargetSpawnerにフィーバー開始を通知
@@ -265,7 +272,12 @@ public class GameManager : MonoBehaviour
         // コールバックを解除
         feverVideoPlayer.loopPointReached -= OnFeverVideoEnd;
 
-        // 動画終了後にゲージ減少開始
+        // 動画終了後にフィーバーBGMを再生し、ゲージ減少開始
+        if (BGMManager.Instance != null)
+        {
+            BGMManager.Instance.StartFeverBGM();
+        }
+        
         feverGaugeDecreaseCoroutine = StartCoroutine(DecreaseComboGaugeDuringFever());
         
         // TargetSpawnerにfemale-gorilla生成開始を通知
@@ -287,36 +299,6 @@ public class GameManager : MonoBehaviour
     }
 
 
-    // --- BGM制御メソッド ---
-    private void StartBGM()
-    {
-        if (bgmAudioSource != null && bgmAudioSource.clip != null)
-        {
-            bgmAudioSource.Play();
-            Debug.Log("BGM開始: " + bgmAudioSource.clip.name);
-        }
-        else
-        {
-            Debug.LogWarning("BGM AudioSourceまたはAudioClipが設定されていません");
-        }
-    }
-
-    public void StopBGM()
-    {
-        if (bgmAudioSource != null)
-        {
-            bgmAudioSource.Stop();
-            Debug.Log("BGM停止");
-        }
-    }
-
-    public void SetBGMVolume(float volume)
-    {
-        if (bgmAudioSource != null)
-        {
-            bgmAudioSource.volume = Mathf.Clamp01(volume);
-        }
-    }
     
     // フィーバーモード終了処理
     private void EndFeverMode()
@@ -328,6 +310,12 @@ public class GameManager : MonoBehaviour
         {
             StopCoroutine(feverGaugeDecreaseCoroutine);
             feverGaugeDecreaseCoroutine = null;
+        }
+        
+        // フィーバータイム終了時にBGMを元に戻す
+        if (BGMManager.Instance != null)
+        {
+            BGMManager.Instance.EndFeverMode();
         }
         
         // TargetSpawnerにフィーバー終了を通知
