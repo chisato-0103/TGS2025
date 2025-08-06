@@ -1,8 +1,12 @@
 using UnityEngine;
 using TMPro; // TextMeshProを使用するために必要
+using System.Collections;
+using UnityEngine.Video; // VideoPlayerを使用するために必要
 
 public class GameManager : MonoBehaviour
 {
+    // 現在のコンボ数
+    private int currentCombo = 0;
     // --- スコア関連の変数 ---
     [SerializeField]
     private TextMeshProUGUI scoreText;
@@ -21,9 +25,36 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance;  // ★追加：誰でもアクセスできる
 
+     // 体力ゲージ（表面の常に見える部分）
+    [SerializeField]
+    private GameObject comboGauge;
+
+    // 最大HP
+    [SerializeField]
+    private int maxCombo;
+    // HP1あたりの幅
+    private float combo1;
+
+    // --- フィーバー動画関連の変数 ---
+    [SerializeField]
+    private VideoPlayer feverVideoPlayer; // VideoPlayerコンポーネントへの参照
+    [SerializeField]
+    private GameObject feverVideoUI; // 動画表示用のRawImageのGameObject
+
+    private bool isFeverActive = false; // フィーバーモードが有効かどうか
+
+
+    // --- フィーバータイム関連の変数 ---
+    [SerializeField]
+    private float comboGaugeDecreaseRate = 2f; // フィーバー中のゲージ減少レート（1秒あたり）
+    
+    private Coroutine feverGaugeDecreaseCoroutine; // ゲージ減少コルーチン
     // ゲーム開始時に呼ばれる
     void Start()
     {
+        // FPSを60に固定
+        Application.targetFrameRate = 60;
+        
         // スコアの初期化
         currentScore = 0;
         UpdateScoreText();
@@ -31,6 +62,14 @@ public class GameManager : MonoBehaviour
         // --- タイマーの初期化 ---
         currentTime = timeLimit;
         isGameActive = true;
+
+        // ゲージの初期化（幅0に）
+        if (comboGauge != null)
+        {
+            var rect = comboGauge.GetComponent<RectTransform>();
+            rect.sizeDelta = new Vector2(0f, rect.sizeDelta.y);
+        }
+
     }
 
     // 毎フレーム呼ばれる
@@ -53,7 +92,7 @@ public class GameManager : MonoBehaviour
             isGameActive = false; // ゲームを非アクティブにする
             Debug.Log("ゲーム終了！");
             // ScreenManagerを探してResultSceneへ遷移
-            ScreenManager screenManager = FindObjectOfType<ScreenManager>();
+            ScreenManager screenManager = FindFirstObjectByType<ScreenManager>();
             if (screenManager != null)
             {
                 screenManager.GoToResultScene();
@@ -76,7 +115,7 @@ public class GameManager : MonoBehaviour
 
         currentScore += points;
         UpdateScoreText();
-        Debug.Log("Score: " + currentScore);
+        Debug.Log(currentScore);
     }
 
     // UIテキストを更新するためのメソッド
@@ -84,7 +123,7 @@ public class GameManager : MonoBehaviour
     {
         if (scoreText != null)
         {
-            scoreText.text = "Score: " + currentScore;
+            scoreText.text = currentScore.ToString();
         }
     }
 
@@ -98,12 +137,226 @@ public class GameManager : MonoBehaviour
             int seconds = Mathf.FloorToInt(currentTime % 60);
 
             // "00:00" の形式でテキストを表示
-            timerText.text = string.Format("Time: {0:00}:{1:00}", minutes, seconds);
+            timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
         }
     }
 
     public int getCurrentScore()
     {
         return currentScore;
+    }
+
+    void Awake(){
+        // コンボゲージの幅を最大コンボ数で割って1コンボあたりの幅をcombo1に入れておく
+        combo1 = comboGauge.GetComponent<RectTransform>().sizeDelta.x / maxCombo;
+        Debug.Log("combo1初期化: " + combo1 + " maxCombo: " + maxCombo + " ゲージ初期幅: " + comboGauge.GetComponent<RectTransform>().sizeDelta.x);
+        
+        // VideoPlayerの設定を初期化時に行う
+        if (feverVideoPlayer != null)
+        {
+            feverVideoPlayer.Prepare();
+        }
+        
+        // Singletonの設定
+        Instance = this;
+    }
+
+    // コンボ成立時にゲージを増やす
+    public void AddCombo(int combo){
+        // フィーバーモード中はゲージ増加を停止
+        if (isFeverActive)
+        {
+            Debug.Log("フィーバーモード中のためゲージ増加をスキップ");
+            return;
+        }
+        
+        // combo値分ゲージを増やす
+        currentCombo += combo;
+        float addWidth = combo1 * combo; // 追加するコンボ分だけの幅を計算
+        StartCoroutine(IncreaseComboGauge(addWidth));
+        Debug.Log("Combo: " + currentCombo);
+    }
+
+    // ポイントにならないターゲット消去時の処理
+    public void ResetComboAndHalveGauge()
+    {
+        // 現在のゲージ幅取得
+        Vector2 nowSize = comboGauge.GetComponent<RectTransform>().sizeDelta;
+        // ゲージ幅を半分に
+        nowSize.x *= 0.5f;
+        comboGauge.GetComponent<RectTransform>().sizeDelta = nowSize;
+        
+        // ゲージ幅に対応するコンボ数を計算してcurrentComboに設定
+        currentCombo = Mathf.RoundToInt(nowSize.x / combo1);
+        Debug.Log("Combo Reset: " + currentCombo);
+    }
+
+    // コンボゲージを増やすコルーチン
+    IEnumerator IncreaseComboGauge(float addWidth){
+        // 現在のゲージ幅取得
+        Vector2 nowSize = comboGauge.GetComponent<RectTransform>().sizeDelta;
+        Debug.Log("ゲージ増加前: " + nowSize.x + " 追加幅: " + addWidth);
+        
+        // ゲージの幅を加算
+        nowSize.x += addWidth;
+        // 最大幅を超えないように制限
+        float maxWidth = combo1 * maxCombo;
+        bool wasMaxBefore = nowSize.x - addWidth >= maxWidth; // 加算前に既に最大だったか
+        Debug.Log("最大幅: " + maxWidth + " 現在幅: " + nowSize.x + " 加算前に最大だった: " + wasMaxBefore);
+        
+        if (nowSize.x > maxWidth) nowSize.x = maxWidth;
+        // ゲージに反映
+        comboGauge.GetComponent<RectTransform>().sizeDelta = nowSize;
+
+        // コンボゲージが最大に達した場合の処理
+        if (!wasMaxBefore && nowSize.x >= maxWidth && !isFeverActive)
+        {
+            Debug.Log("フィーバーモード発動条件を満たしました");
+            StartFeverMode();
+        }
+
+        yield return null;
+    }
+
+    // フィーバーモード開始（動画再生）
+    private void StartFeverMode()
+    {
+        if (feverVideoPlayer == null || feverVideoUI == null)
+        {
+            Debug.LogWarning("VideoPlayerまたはVideoUIが設定されていません");
+            return;
+        }
+
+        isFeverActive = true;
+        Debug.Log("フィーバーモード開始！");
+
+        // 動画中は全てのBGMを一時停止
+        if (BGMManager.Instance != null)
+        {
+            BGMManager.Instance.PauseNormalBGM();
+            BGMManager.Instance.StopFeverBGM(); // フィーバーBGMはそもそも再生中ではない
+        }
+
+        // 動画UIを表示
+        feverVideoUI.SetActive(true);
+
+        // VideoPlayerの設定を確実にしてから再生
+        if (feverVideoPlayer != null)
+        {
+            feverVideoPlayer.isLooping = false; // ループしないように設定
+            feverVideoPlayer.Play();
+        }
+
+        // 動画終了時のコールバックを設定（既存のコールバックを一度クリア）
+        feverVideoPlayer.loopPointReached -= OnFeverVideoEnd; // 重複登録防止
+        feverVideoPlayer.loopPointReached += OnFeverVideoEnd;
+        
+        // TargetSpawnerにフィーバー開始を通知
+        TargetSpawner spawner = FindFirstObjectByType<TargetSpawner>();
+        if (spawner != null)
+        {
+            spawner.StartFeverMode();
+        }
+        
+        // コンボゲージ減少は動画終了後に開始（動画終了コールバックで開始）
+    }
+
+    // 動画終了時の処理
+    private void OnFeverVideoEnd(VideoPlayer vp)
+    {
+        Debug.Log("フィーバー動画終了 - ゲージ減少開始");
+
+        // 動画UIを非表示
+        feverVideoUI.SetActive(false);
+
+        // コールバックを解除
+        feverVideoPlayer.loopPointReached -= OnFeverVideoEnd;
+
+        // 動画終了後にフィーバーBGMを再生し、ゲージ減少開始
+        if (BGMManager.Instance != null)
+        {
+            BGMManager.Instance.StartFeverBGM();
+        }
+        
+        feverGaugeDecreaseCoroutine = StartCoroutine(DecreaseComboGaugeDuringFever());
+        
+        // TargetSpawnerにfemale-gorilla生成開始を通知
+        TargetSpawner spawner = FindFirstObjectByType<TargetSpawner>();
+        if (spawner != null)
+        {
+            spawner.StartFemaleGorillaSpawn();
+        }
+    }
+
+    // フィーバーモードを手動で停止する場合のメソッド
+    public void StopFeverMode()
+    {
+        if (feverVideoPlayer != null && feverVideoPlayer.isPlaying)
+        {
+            feverVideoPlayer.Stop();
+            OnFeverVideoEnd(feverVideoPlayer);
+        }
+    }
+
+
+    
+    // フィーバーモード終了処理
+    private void EndFeverMode()
+    {
+        isFeverActive = false;
+        
+        // ゲージ減少を停止
+        if (feverGaugeDecreaseCoroutine != null)
+        {
+            StopCoroutine(feverGaugeDecreaseCoroutine);
+            feverGaugeDecreaseCoroutine = null;
+        }
+        
+        // フィーバータイム終了時にBGMを元に戻す
+        if (BGMManager.Instance != null)
+        {
+            BGMManager.Instance.EndFeverMode();
+        }
+        
+        // TargetSpawnerにフィーバー終了を通知
+        TargetSpawner spawner = FindFirstObjectByType<TargetSpawner>();
+        if (spawner != null)
+        {
+            spawner.EndFeverMode();
+        }
+    }
+    
+    
+    // フィーバータイム中のコンボゲージ減少
+    private IEnumerator DecreaseComboGaugeDuringFever()
+    {
+        while (isFeverActive)
+        {
+            // ゲージの幅を減少
+            Vector2 nowSize = comboGauge.GetComponent<RectTransform>().sizeDelta;
+            float decreaseAmount = combo1 * comboGaugeDecreaseRate * Time.deltaTime;
+            nowSize.x -= decreaseAmount;
+            
+            // 0以下になったらフィーバー終了
+            if (nowSize.x <= 0)
+            {
+                nowSize.x = 0;
+                currentCombo = 0;
+                comboGauge.GetComponent<RectTransform>().sizeDelta = nowSize;
+                
+                Debug.Log("ゲージが完全に0に到達 - フィーバー終了");
+                // ゲージが0になったのでフィーバー終了
+                EndFeverMode();
+                break;
+            }
+            
+            // ゲージに反映
+            comboGauge.GetComponent<RectTransform>().sizeDelta = nowSize;
+            
+            // コンボ数を更新
+            currentCombo = Mathf.RoundToInt(nowSize.x / combo1);
+            
+            yield return null;
+        }
     }
 }
