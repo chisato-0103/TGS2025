@@ -24,11 +24,20 @@ public class PlayerInput : MonoBehaviour
                 Target target = hit.collider.GetComponent<Target>();
                 if (target != null)
                 {
-                    // 的を破壊する直前に、スコアを加算する処理を呼び出す
-                    // とりあえず10点加算する
+                    // 加点・減点判定
                     if (gameManager != null)
                     {
                         gameManager.AddScore(target.points);
+                        if (target.points > 0)
+                        {
+                            // 加点時はコンボ加算
+                            gameManager.AddCombo(1);
+                        }
+                        else
+                        {
+                            // 減点時はコンボリセット＋ゲージ半分
+                            gameManager.ResetComboAndHalveGauge();
+                        }
                     }
 
                     target.Hit();

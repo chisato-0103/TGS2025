@@ -6,7 +6,6 @@ public class ScreenManager : MonoBehaviour
     public void StartGame()
     {
         Debug.Log("ゲームスタート！");
-
         SceneManager.LoadScene("GameScene"); // "GameScene" はゲームプレイ用のシーン名
     }
 
