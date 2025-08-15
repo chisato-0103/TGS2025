@@ -10,24 +10,25 @@ public class PlayerRank : MonoBehaviour
     {
         int score = GameManager.currentScore;
         int PRank = -1;
-        if (score > RankingDataOld.rscore[9])
+        if (score > RankingDataOld.rscore[4])
         {
             int i;
-            PRank = 10;
+            PRank = 5;
             // 自分の順位を特定する手順
-            for (i = 8; i >= 0 && RankingDataOld.rscore[i] < score; i--)
+            for (i = 3; i >= 0 && RankingDataOld.rscore[i] < score; i--)
             {
                 PRank -= 1;
             }
         }
-        if (PRank == -1)
+        /*if (PRank == -1)
         {
             PRankText.text = "あなたの得点は" + score + "でランキング外でした。";
         }
         else
         {
             PRankText.text = "あなたの得点は" + score + "で順位は" + PRank + "位でした。";
-        }
+        }*/
+        PRankText.text = score + "匹！";
         
     }
 
