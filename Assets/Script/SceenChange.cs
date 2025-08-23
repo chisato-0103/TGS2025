@@ -24,7 +24,7 @@ public class SceenChange : MonoBehaviour
                 if (screenManager != null)
                 {
                     Debug.Log("ゲームスタート！");
-                    screenManager.StartGame();
+                    screenManager.GoToLoadScene();
                 }
                 else
                 {

@@ -22,10 +22,16 @@ public class ScreenManager : MonoBehaviour
         Debug.Log("ランキンング画面へ遷移");
         SceneManager.LoadScene("RankingScene"); // "ResultScene" はリザルト用のシーン名
     }
-    
+
     public void GoToTitleScene()
     {
         Debug.Log("タイトル画面へ遷移");
         SceneManager.LoadScene("TitleScene"); // "ResultScene" はリザルト用のシーン名
+    }
+
+    public void GoToLoadScene()
+    {
+        Debug.Log("ロード画面に移動");
+        SceneManager.LoadScene("Load");
     }
 }
