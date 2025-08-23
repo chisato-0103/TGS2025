@@ -6,7 +6,6 @@ public class ResultTextOld : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public Text SResultText;
     Score sr;
-    float time = 0.0f;
     bool flag = false;
     void Start()
     {
@@ -17,7 +16,7 @@ public class ResultTextOld : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (time >= 5.0 && flag == false)
+        if (sr.time >= 5.0 && flag == false)
         {
             // スコアに応じて言葉を変更
             if (sr.score >= sr.high)
@@ -36,7 +35,7 @@ public class ResultTextOld : MonoBehaviour
         }
         else
         {
-            time += Time.deltaTime;
+            sr.time += Time.deltaTime;
         }
     }
 }

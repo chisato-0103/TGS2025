@@ -9,17 +9,14 @@ public class RankingOld : MonoBehaviour
 
     void Start()
     {
-        for (int i = 0; i < 10; i++)
-        {
-            rd.RankingChange();
-        }
+        rd.RankingChange();
         RankingText.text = "";
         int count = 1;
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 5; i++)
         {
-            if (i != 0 && rd.rscore[i] == rd.rscore[i - 1])
+            if (i != 0 && RankingDataOld.rscore[i] == RankingDataOld.rscore[i - 1])
             {
-                RankingText.text += count  + "位:" + "     " + rd.Pname[i] +  "     " + rd.rscore[i] + "点" + "\n";
+                RankingText.text += RankingDataOld.rscore[i] + "匹" + "\n";
             }
             else
             {
@@ -27,13 +24,13 @@ public class RankingOld : MonoBehaviour
                 {
                     count++;
                 }
-                if (count >= 10)
+                if (count >= 5)
                 {
-                    RankingText.text += count  + "位:" + "   " + rd.Pname[i] +  "     " + rd.rscore[i] + "点" + "\n";
+                    RankingText.text += RankingDataOld.rscore[i] + "匹" + "\n";
                 }
                 else
                 {
-                    RankingText.text += count  + "位:" + "     " + rd.Pname[i] +  "     " + rd.rscore[i] + "点" + "\n";
+                    RankingText.text += RankingDataOld.rscore[i] + "匹" + "\n";
                 }
             }
 
