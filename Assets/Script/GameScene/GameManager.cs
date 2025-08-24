@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
 
     private float currentTime; // 残り時間を保持する変数
     private bool isGameActive; // ゲームがプレイ中かどうかを判定するフラグ
+    private bool isTimerPaused = false; // タイマーが一時停止中かどうかを判定するフラグ
 
     public static GameManager Instance;  // ★追加：誰でもアクセスできる
 
@@ -63,6 +64,13 @@ public class GameManager : MonoBehaviour
         currentTime = timeLimit;
         isGameActive = true;
 
+        // ゲーム開始時にBGMを開始
+        if (BGMManager.Instance != null)
+        {
+            BGMManager.Instance.StartNormalBGM();
+            Debug.Log("ゲーム開始 - 通常BGMを開始");
+        }
+
         // ゲージの初期化（幅0に）
         if (comboGauge != null)
         {
@@ -82,8 +90,11 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // 時間を減らしていく
-        currentTime -= Time.deltaTime;
+        // タイマーが一時停止中でなければ時間を減らしていく
+        if (!isTimerPaused)
+        {
+            currentTime -= Time.deltaTime;
+        }
 
         // もし残り時間が0以下になったら
         if (currentTime <= 0)
@@ -91,6 +102,15 @@ public class GameManager : MonoBehaviour
             currentTime = 0; // マイナス表示を防ぐ
             isGameActive = false; // ゲームを非アクティブにする
             Debug.Log("ゲーム終了！");
+            
+            // ゲーム終了時にすべてのBGMを完全停止
+            if (BGMManager.Instance != null)
+            {
+                BGMManager.Instance.StopNormalBGM();
+                BGMManager.Instance.StopFeverBGM();
+                Debug.Log("ゲーム終了 - すべてのBGMを停止");
+            }
+            
             // ScreenManagerを探してResultSceneへ遷移
             ScreenManager screenManager = FindFirstObjectByType<ScreenManager>();
             if (screenManager != null)
@@ -230,6 +250,10 @@ public class GameManager : MonoBehaviour
         isFeverActive = true;
         Debug.Log("フィーバーモード開始！");
 
+        // フィーバー動画中はタイマーを一時停止
+        isTimerPaused = true;
+        Debug.Log("タイマー一時停止");
+
         // 動画中は全てのBGMを一時停止
         if (BGMManager.Instance != null)
         {
@@ -265,6 +289,10 @@ public class GameManager : MonoBehaviour
     private void OnFeverVideoEnd(VideoPlayer vp)
     {
         Debug.Log("フィーバー動画終了 - ゲージ減少開始");
+
+        // フィーバー動画終了後にタイマーを再開
+        isTimerPaused = false;
+        Debug.Log("タイマー再開");
 
         // 動画UIを非表示
         feverVideoUI.SetActive(false);
