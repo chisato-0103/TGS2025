@@ -265,6 +265,21 @@ public class GameManager : MonoBehaviour
         isTimerPaused = true;
         Debug.Log("タイマー一時停止（透過動画）");
 
+        // BGMを一時停止
+        if (BGMManager.Instance != null)
+        {
+            BGMManager.Instance.PauseNormalBGM();
+            Debug.Log("BGM一時停止（透過動画）");
+        }
+
+        // スポーンを停止
+        TargetSpawner spawner = FindFirstObjectByType<TargetSpawner>();
+        if (spawner != null)
+        {
+            spawner.StopSpawning();
+            Debug.Log("スポーン停止（透過動画）");
+        }
+
         // 透過動画UIを表示
         preEffectVideoUI.SetActive(true);
 
