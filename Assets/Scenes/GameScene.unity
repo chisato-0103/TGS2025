@@ -964,7 +964,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreText: {fileID: 1394282777}
   timerText: {fileID: 97749164}
-  timeLimit: 120
+  timeLimit: 10
   comboGauge: {fileID: 1606794112}
   maxCombo: 10
   preEffectVideoPlayer: {fileID: 1183436873}
