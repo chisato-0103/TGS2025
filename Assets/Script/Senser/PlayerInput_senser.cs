@@ -25,10 +25,14 @@ public class PlayerInput_senser : MonoBehaviour
 
             confirmationtTargetHitSenser(worldPoint);
             m5StickReader.setThrowedActionFlag(true);
+
+            m5StickReader.resetThrowFlag();
+
         }
         else
         {
             m5StickReader.setThrowedActionFlag(false);
+            m5StickReader.setThrowActionFlag(false);
             m5StickReader.SendFlag(false);
         }
         Debug.Log("x: " + m5StickReader.getThrowPos().x + " y: " + m5StickReader.getThrowPos().y + " throw: " + m5StickReader.getThrowedActionFlag());
@@ -36,7 +40,7 @@ public class PlayerInput_senser : MonoBehaviour
 
     private void confirmationtTargetHitSenser(Vector2 worldPoint)
     {
-        float hitRadius = 1.2f; // 半径は調整可能
+        float hitRadius = 1.3f; // 半径は調整可能
         Collider2D[] hits = Physics2D.OverlapCircleAll(worldPoint, hitRadius);
 
         foreach (Collider2D col in hits)
