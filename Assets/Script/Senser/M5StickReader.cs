@@ -146,7 +146,7 @@ public class M5StickReader : MonoBehaviour
             if (float.TryParse(lineY, out float y))
                 yaw = y;
 
-            throwPoint.x = 6f * yaw / 45f;
+            throwPoint.x = -6.0f * yaw / 45f;
         }
     }
 
@@ -182,7 +182,7 @@ public class M5StickReader : MonoBehaviour
     }
     public float getTarget_x()
     {
-        return 6 * yaw / 45.0f;
+        return -6 * yaw / 45.0f;
     }
     public bool getThrowActionflag()
     {
