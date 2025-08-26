@@ -16,53 +16,23 @@ public class PlayerInput_senser : MonoBehaviour
         m5StickReader = FindFirstObjectByType<M5StickReader>();
     }
 
+    // Update is called once per frame
     void Update()
     {
-        if (m5StickReader.getThrowActionflag() && !m5StickReader.getThrowedActionFlag())
+        if (m5StickReader.ConsumeThrowActionFlag() && !m5StickReader.getThrowedActionFlag())
         {
             Vector2 worldPoint = m5StickReader.getThrowPos();
 
             confirmationtTargetHitSenser(worldPoint);
             m5StickReader.setThrowedActionFlag(true);
-
-            // フラグをリセット
-            m5StickReader.resetThrowFlag();
         }
         else
         {
             m5StickReader.setThrowedActionFlag(false);
             m5StickReader.SendFlag(false);
         }
+
         Debug.Log("x: " + m5StickReader.getThrowPos().x + " y: " + m5StickReader.getThrowPos().y + " throw: " + m5StickReader.getThrowedActionFlag());
-    }
-
-    //ターゲットに当たったかを処理する関数
-    private void confirmationtTargetHitMouse(RaycastHit2D hit)
-    {
-        if (hit.collider != null)
-        {
-            Target target = hit.collider.GetComponent<Target>();
-            if (target != null)
-            {
-                // 加点・減点判定
-                if (gameManager != null)
-                {
-                    gameManager.AddScore(target.points);
-                    if (target.points > 0)
-                    {
-                        // 加点時はコンボ加算
-                        gameManager.AddCombo(1);
-                    }
-                    else
-                    {
-                        // 減点時はコンボリセット＋ゲージ半分
-                        gameManager.ResetComboAndHalveGauge();
-                    }
-                }
-
-                target.Hit();
-            }
-        }
     }
 
     private void confirmationtTargetHitSenser(Vector2 worldPoint)

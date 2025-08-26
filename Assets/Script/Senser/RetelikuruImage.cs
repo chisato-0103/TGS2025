@@ -23,7 +23,7 @@ public class RetelikuruImage : MonoBehaviour
             float x = m5StickReader.getTarget_x();
             float y = m5StickReader.getTarget_y();
 
-            rete.position = new Vector3(x, y, rete.position.z); // Z座標はそのまま維持
+            rete.position = new Vector3(-x, y, rete.position.z); // Z座標はそのまま維持
         }
     }
 }

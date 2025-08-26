@@ -198,6 +198,16 @@ public class M5StickReader : MonoBehaviour
         throwActionFlag = false;
     }
 
+    public bool ConsumeThrowActionFlag()
+    {
+        if (throwActionFlag)
+        {
+            throwActionFlag = false; // 一度読んだらリセット
+            return true;
+        }
+        return false;
+    }
+
     void OnApplicationQuit()
     {
         running = false;
