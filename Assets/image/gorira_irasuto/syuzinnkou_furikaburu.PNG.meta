@@ -185,7 +185,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      syuzinnkou_furikaburu_0: -7540251595749006782
+      syuzinnkou_furikaburu_1: -2208583897338087740
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

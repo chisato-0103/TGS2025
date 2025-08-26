@@ -185,7 +185,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      mesu_meromero_0: 5292612804255757708
+      mesu_meromero_1: 5730854870195093963
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

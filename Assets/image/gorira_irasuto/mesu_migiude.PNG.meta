@@ -210,7 +210,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      mesu_migiude_0: -4655526218678138742
+      mesu_migiude_1: 4442595400308064417
+      mesu_migiude_2: -8093354208395477427
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

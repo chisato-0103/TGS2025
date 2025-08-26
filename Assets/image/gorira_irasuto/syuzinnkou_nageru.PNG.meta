@@ -310,7 +310,14 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      syuzinnkou_nageru_0: -5594283832699074421
+      syuzinnkou_nageru_1: -1301273305384424793
+      syuzinnkou_nageru_2: -318467247570227083
+      syuzinnkou_nageru_3: 2822302680938103784
+      syuzinnkou_nageru_4: 1689807831108447038
+      syuzinnkou_nageru_5: 6486160294091201808
+      syuzinnkou_nageru_6: -2783670494569720628
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

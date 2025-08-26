@@ -185,7 +185,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      osu_meromero_0: 1956790412160686544
+      osu_meromero_1: 9056151862679883592
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
