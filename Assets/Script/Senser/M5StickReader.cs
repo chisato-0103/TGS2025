@@ -7,6 +7,21 @@ using System.IO;
 
 public class M5StickReader : MonoBehaviour
 {
+    // シングルトン実装
+    public static M5StickReader Instance { get; private set; }
+
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject); // 既に存在するなら新しい方を破棄
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject); // シーン遷移でも残す
+    }
+
     public struct DisplaySize
     {
         public float width;

@@ -13,7 +13,12 @@ public class PlayerInput_senser : MonoBehaviour
         // シーン内からGameManagerコンポーネントを探してくる
         gameManager = FindFirstObjectByType<GameManager>();
         // シーン内からM5StickReaderコンポーネントを探してくる
-        m5StickReader = FindFirstObjectByType<M5StickReader>();
+        m5StickReader = M5StickReader.Instance;
+
+        if (m5StickReader == null)
+        {
+            Debug.LogError("M5StickReaderが見つかりません。シーンに配置されていない可能性があります。");
+        }
     }
 
     // Update is called once per frame
