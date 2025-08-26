@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      osu_kusa_0: 3174996615895250907
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

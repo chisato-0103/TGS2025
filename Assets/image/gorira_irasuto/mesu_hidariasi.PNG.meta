@@ -235,7 +235,11 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      mesu_hidariasi_0: -8882941692349027946
+      mesu_hidariasi_1: -6645964159879560168
+      mesu_hidariasi_2: -3502290466638318926
+      mesu_hidariasi_3: 2497252222554547211
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

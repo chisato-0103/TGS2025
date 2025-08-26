@@ -185,7 +185,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      mesu_doutai_0: -7684011976488959242
+      mesu_doutai_1: -6189629639775051335
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -185,7 +185,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      mesu_gannmenn_0: -7330959400936266875
+      mesu_gannmenn_1: -6557456337555597772
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -185,7 +185,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      osu_burasagari_0: -3128416424088982480
+      osu_burasagari_1: 4875917107495206585
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

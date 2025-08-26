@@ -210,7 +210,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      mesu_migiasi_0: 8421689221698529561
+      mesu_migiasi_1: -7903449358764373631
+      mesu_migiasi_2: -4021949324855250575
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

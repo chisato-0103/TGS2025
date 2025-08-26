@@ -260,7 +260,12 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      osu_ki_0: -6522262746382139403
+      osu_ki_1: 5296070533244124951
+      osu_ki_2: -6021819626585697789
+      osu_ki_3: 1978311603377132242
+      osu_ki_4: -163035750749597466
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

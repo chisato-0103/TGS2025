@@ -210,7 +210,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      kirakira_0: 3447173734517085407
+      kirakira_1: 7606339761116625269
+      kirakira_2: -528497589201154377
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

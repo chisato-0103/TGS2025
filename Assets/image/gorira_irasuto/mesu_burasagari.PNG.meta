@@ -185,7 +185,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      mesu_burasagari_0: 5052749377992651311
+      mesu_burasagari_1: 7239996415294606290
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      syuzinnkou_doya_0: 5798215726968103826
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

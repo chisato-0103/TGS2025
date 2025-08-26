@@ -310,7 +310,14 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      mesu_hidariude_0: -4079437705160900667
+      mesu_hidariude_1: -903193442104096746
+      mesu_hidariude_2: 2052094695526635910
+      mesu_hidariude_3: -1434661021918306867
+      mesu_hidariude_4: 7931530495156827928
+      mesu_hidariude_5: -2072035357680268969
+      mesu_hidariude_6: -6430459674761343566
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

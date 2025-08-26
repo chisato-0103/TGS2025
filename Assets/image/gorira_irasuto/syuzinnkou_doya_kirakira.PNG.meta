@@ -185,7 +185,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      syuzinnkou_doya_kirakira_0: -8623944505311833015
+      syuzinnkou_doya_kirakira_1: 5541745295379330119
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
