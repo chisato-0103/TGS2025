@@ -48,6 +48,12 @@ public class M5StickReader : MonoBehaviour
     {
         displaySize = new DisplaySize(Screen.currentResolution.width, Screen.currentResolution.height);
         throwPoint = new Vector2(0, 0);
+        power = 0f;
+        yaw = 0f;
+        throwPoint = Vector2.zero;
+        throwActionFlag = false;
+        throwedActionFlag = false;
+        tflag = false;
 
         OpenSerialPort(portPower, queuePower, out serialPower, out threadPower);
         OpenSerialPort(portYaw, queueYaw, out serialYaw, out threadYaw);
@@ -142,6 +148,19 @@ public class M5StickReader : MonoBehaviour
 
             throwPoint.x = 6f * yaw / 45f;
         }
+    }
+
+    void OnDestroy()
+    {
+        running = false;
+
+        if (threadPower != null && threadPower.IsAlive) threadPower.Join(500);
+        if (threadYaw != null && threadYaw.IsAlive) threadYaw.Join(500);
+
+        if (serialPower != null && serialPower.IsOpen) serialPower.Close();
+        if (serialYaw != null && serialYaw.IsOpen) serialYaw.Close();
+
+        Debug.Log("[Serial] Closed on destroy");
     }
 
     public void SendFlag(bool flag)
