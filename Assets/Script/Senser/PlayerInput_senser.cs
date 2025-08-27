@@ -42,7 +42,7 @@ public class PlayerInput_senser : MonoBehaviour
 
     private void confirmationtTargetHitSenser(Vector2 worldPoint)
     {
-        float hitRadius = 1.2f; // 半径は調整可能
+        float hitRadius = 0.8f; // 半径は調整可能
         Collider2D[] hits = Physics2D.OverlapCircleAll(worldPoint, hitRadius);
 
         foreach (Collider2D col in hits)
