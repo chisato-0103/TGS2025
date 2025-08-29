@@ -90,6 +90,20 @@ public class TargetSpawner : MonoBehaviour
         }
     }
     
+    // スポーンを停止（透過動画用）
+    public void StopSpawning()
+    {
+        isVideoPlaying = true;
+        Debug.Log("TargetSpawner スポーン停止");
+    }
+    
+    // スポーンを再開（透過動画終了用）
+    public void ResumeSpawning()
+    {
+        isVideoPlaying = false;
+        Debug.Log("TargetSpawner スポーン再開");
+    }
+    
     // フィーバーモード終了
     public void EndFeverMode()
     {

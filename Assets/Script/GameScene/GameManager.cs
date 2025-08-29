@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
 
     private float currentTime; // 残り時間を保持する変数
     private bool isGameActive; // ゲームがプレイ中かどうかを判定するフラグ
+    private bool isTimerPaused = false; // タイマーが一時停止中かどうかを判定するフラグ
 
     public static GameManager Instance;  // ★追加：誰でもアクセスできる
 
@@ -34,6 +35,12 @@ public class GameManager : MonoBehaviour
     private int maxCombo;
     // HP1あたりの幅
     private float combo1;
+
+    // --- 透過動画関連の変数 ---
+    [SerializeField]
+    private VideoPlayer preEffectVideoPlayer; // 透過動画用VideoPlayerコンポーネント
+    [SerializeField]
+    private GameObject preEffectVideoUI; // 透過動画表示用のRawImageのGameObject
 
     // --- フィーバー動画関連の変数 ---
     [SerializeField]
@@ -63,6 +70,13 @@ public class GameManager : MonoBehaviour
         currentTime = timeLimit;
         isGameActive = true;
 
+        // ゲーム開始時にBGMを開始
+        if (BGMManager.Instance != null)
+        {
+            BGMManager.Instance.StartNormalBGM();
+            Debug.Log("ゲーム開始 - 通常BGMを開始");
+        }
+
         // ゲージの初期化（幅0に）
         if (comboGauge != null)
         {
@@ -82,8 +96,11 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // 時間を減らしていく
-        currentTime -= Time.deltaTime;
+        // タイマーが一時停止中でなければ時間を減らしていく
+        if (!isTimerPaused)
+        {
+            currentTime -= Time.deltaTime;
+        }
 
         // もし残り時間が0以下になったら
         if (currentTime <= 0)
@@ -91,6 +108,15 @@ public class GameManager : MonoBehaviour
             currentTime = 0; // マイナス表示を防ぐ
             isGameActive = false; // ゲームを非アクティブにする
             Debug.Log("ゲーム終了！");
+            
+            // ゲーム終了時にすべてのBGMを完全停止
+            if (BGMManager.Instance != null)
+            {
+                BGMManager.Instance.StopNormalBGM();
+                BGMManager.Instance.StopFeverBGM();
+                Debug.Log("ゲーム終了 - すべてのBGMを停止");
+            }
+            
             // ScreenManagerを探してResultSceneへ遷移
             ScreenManager screenManager = FindFirstObjectByType<ScreenManager>();
             if (screenManager != null)
@@ -157,6 +183,11 @@ public class GameManager : MonoBehaviour
             feverVideoPlayer.Prepare();
         }
         
+        if (preEffectVideoPlayer != null)
+        {
+            preEffectVideoPlayer.Prepare();
+        }
+        
         // Singletonの設定
         Instance = this;
     }
@@ -212,10 +243,71 @@ public class GameManager : MonoBehaviour
         if (!wasMaxBefore && nowSize.x >= maxWidth && !isFeverActive)
         {
             Debug.Log("フィーバーモード発動条件を満たしました");
-            StartFeverMode();
+            StartPreEffectVideo();
         }
 
         yield return null;
+    }
+
+    // 透過動画開始（フィーバー前エフェクト）
+    private void StartPreEffectVideo()
+    {
+        if (preEffectVideoPlayer == null || preEffectVideoUI == null)
+        {
+            Debug.LogWarning("PreEffectVideoPlayerまたはPreEffectVideoUIが設定されていません - 直接フィーバーモードに移行");
+            StartFeverMode();
+            return;
+        }
+
+        Debug.Log("透過エフェクト動画開始！");
+
+        // 透過動画中はタイマーを一時停止
+        isTimerPaused = true;
+        Debug.Log("タイマー一時停止（透過動画）");
+
+        // BGMを一時停止
+        if (BGMManager.Instance != null)
+        {
+            BGMManager.Instance.PauseNormalBGM();
+            Debug.Log("BGM一時停止（透過動画）");
+        }
+
+        // スポーンを停止
+        TargetSpawner spawner = FindFirstObjectByType<TargetSpawner>();
+        if (spawner != null)
+        {
+            spawner.StopSpawning();
+            Debug.Log("スポーン停止（透過動画）");
+        }
+
+        // 透過動画UIを表示
+        preEffectVideoUI.SetActive(true);
+
+        // VideoPlayerの設定を確実にしてから再生
+        if (preEffectVideoPlayer != null)
+        {
+            preEffectVideoPlayer.isLooping = false; // ループしないように設定
+            preEffectVideoPlayer.Play();
+        }
+
+        // 透過動画終了時のコールバックを設定
+        preEffectVideoPlayer.loopPointReached -= OnPreEffectVideoEnd; // 重複登録防止
+        preEffectVideoPlayer.loopPointReached += OnPreEffectVideoEnd;
+    }
+
+    // 透過動画終了時の処理
+    private void OnPreEffectVideoEnd(VideoPlayer vp)
+    {
+        Debug.Log("透過エフェクト動画終了 - フィーバー動画開始");
+
+        // 透過動画UIを非表示
+        preEffectVideoUI.SetActive(false);
+
+        // コールバック解除
+        preEffectVideoPlayer.loopPointReached -= OnPreEffectVideoEnd;
+
+        // フィーバー動画に移行
+        StartFeverMode();
     }
 
     // フィーバーモード開始（動画再生）
@@ -229,6 +321,10 @@ public class GameManager : MonoBehaviour
 
         isFeverActive = true;
         Debug.Log("フィーバーモード開始！");
+
+        // フィーバー動画中はタイマーを一時停止
+        isTimerPaused = true;
+        Debug.Log("タイマー一時停止");
 
         // 動画中は全てのBGMを一時停止
         if (BGMManager.Instance != null)
@@ -266,6 +362,10 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("フィーバー動画終了 - ゲージ減少開始");
 
+        // フィーバー動画終了後にタイマーを再開
+        isTimerPaused = false;
+        Debug.Log("タイマー再開");
+
         // 動画UIを非表示
         feverVideoUI.SetActive(false);
 
@@ -291,6 +391,14 @@ public class GameManager : MonoBehaviour
     // フィーバーモードを手動で停止する場合のメソッド
     public void StopFeverMode()
     {
+        // 透過動画再生中の場合
+        if (preEffectVideoPlayer != null && preEffectVideoPlayer.isPlaying)
+        {
+            preEffectVideoPlayer.Stop();
+            OnPreEffectVideoEnd(preEffectVideoPlayer);
+        }
+        
+        // フィーバー動画再生中の場合
         if (feverVideoPlayer != null && feverVideoPlayer.isPlaying)
         {
             feverVideoPlayer.Stop();

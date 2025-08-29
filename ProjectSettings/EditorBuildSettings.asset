@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/TitleScene.unity
     guid: 627ea02da984744abb7cf6e157f52183
   - enabled: 1
+    path: Assets/Scenes/StoryScene.unity
+    guid: c493a8f79332a4c329a576e5e5522870
+  - enabled: 1
     path: Assets/Scenes/GameScene.unity
     guid: a9df59de47da84009a3d805a192c6461
   - enabled: 1
@@ -17,9 +20,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/RankingScene.unity
     guid: c08a3189717d749759b40cf073c5b63c
-  - enabled: 1
-    path: Assets/Scenes/Load.unity
-    guid: 9dab26f4b9bde4debb5a23c33daa6447
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
