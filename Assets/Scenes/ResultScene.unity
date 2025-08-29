@@ -1342,6 +1342,7 @@ MonoBehaviour:
   loseGorira: {fileID: 216380403537625718, guid: 66c189f91d8b447bf818a87880d37786, type: 3}
   Gorira: {fileID: 2920207252566561474, guid: ebd5b5123278c4782a28a91fb3361289, type: 3}
   WinGorira: {fileID: 244016018083208603, guid: c9e6c64fafd794491a2a188cdd246468, type: 3}
+  TrueGorira: {fileID: -2815610180370107974, guid: 20437cac55d58442ea1c4ce47cc95b4a, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

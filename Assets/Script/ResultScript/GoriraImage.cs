@@ -8,6 +8,7 @@ public class GoriraImage : MonoBehaviour
     public Sprite loseGorira;         // スコアが低いときの画像
     public Sprite Gorira;             // 中間
     public Sprite WinGorira;          // 高スコア
+    public Sprite TrueGorira;          // 一匹の時の画像
 
     bool flag = false;
     void Start()
@@ -20,7 +21,11 @@ public class GoriraImage : MonoBehaviour
         if (sr.time >= 5.0 && flag == false)
         {
             // スコアに応じて画像を変更
-            if (sr.score >= sr.high)
+            if (sr.score == 1)
+            {
+                ResultImage.sprite = TrueGorira;
+            }
+            else if (sr.score >= sr.high)
             {
                 ResultImage.sprite = WinGorira;
             }
