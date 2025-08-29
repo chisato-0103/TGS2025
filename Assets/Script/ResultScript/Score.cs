@@ -8,7 +8,7 @@ public class Score : MonoBehaviour
     public float score = 0.0f;
     public float start = 0.0f; //今の時間(Scoreに使うもの)を記録する
     public float time = 0.0f;  //テキストや画像用の時間計測
-    float end = 4.0f; //終了時刻
+    float end = 3.0f; //終了時刻
     public float high = 800.0f, middle = 500.0f; //外部からもいじれるようにスコアの判定ラインをパブリックにする
     void Start()
     {

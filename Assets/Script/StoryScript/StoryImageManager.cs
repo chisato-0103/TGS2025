@@ -20,7 +20,7 @@ namespace StoryScript
         public List<Sprite> storySprites = new List<Sprite>();
         
         [Header("Scene Transition")]
-        public string nextSceneName = "GameScene";
+        public string nextSceneName = "Load";
         
         private int currentIndex = 0;
         private bool isTransitioning = false;
