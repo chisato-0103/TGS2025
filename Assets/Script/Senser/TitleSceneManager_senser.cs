@@ -3,7 +3,7 @@ using UnityEngine;
 public class TitleSceneManager_senser : MonoBehaviour
 {
     [SerializeField]
-    private float inputDelay = 1.0f; // 入力受付までの遅延時間
+    private float inputDelay = 10.0f; // 入力受付までの遅延時間
 
     private bool canTransition = false; // 遷移可能フラグ
 
