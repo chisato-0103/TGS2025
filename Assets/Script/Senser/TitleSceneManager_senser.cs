@@ -43,6 +43,6 @@ public class TitleSceneManager_senser : MonoBehaviour
     private void EnableTransition()
     {
         canTransition = true;
-        Debug.Log("タイトル画面 - 入力受付開始");
+        Debug.Log("タイトル画面 - センサー入力受付開始");
     }
 }

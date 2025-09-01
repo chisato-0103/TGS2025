@@ -14,6 +14,13 @@ public class StoryImageManager_senser : MonoBehaviour
     private int currentIndex = 0;
     private bool isTransitioning = false;
 
+    // スキップ判定用
+    private float skipTimer = 0f;
+    private float skipThreshold = 3f; // 3秒間続いたらスキップ
+
+    [Header("Scene Transition")]
+    public string nextSceneName = "GameScene";
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -33,7 +40,31 @@ public class StoryImageManager_senser : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (m5StickReader.ConsumeThrowActionFlag() && !m5StickReader.getThrowedActionFlag())
+        // 一度だけフラグを読む
+        bool throwAction = m5StickReader.ConsumeThrowActionFlag();
+        bool throwedFlag = m5StickReader.getThrowedActionFlag();
+        float targetY = m5StickReader.getTarget_y();
+
+        // --- スキップ判定 ---
+        bool skipCondition = !throwedFlag && targetY > 3;
+        if (skipCondition)
+        {
+            skipTimer += Time.deltaTime;
+
+            if (skipTimer >= skipThreshold)
+            {
+                Debug.Log("条件が3秒間続いたのでストーリーをスキップします！");
+                StartCoroutine(GoToNextScene());
+                skipTimer = 0f; // リセット
+            }
+        }
+        else
+        {
+            skipTimer = 0f; // 条件が途切れたらリセット
+        }
+
+        // --- 通常のページ送り処理 ---
+        if (throwAction && !throwedFlag)
         {
             if (isTransitioning) return;
 
@@ -132,6 +163,6 @@ public class StoryImageManager_senser : MonoBehaviour
             yield return StartCoroutine(FadeEffect.FadeOut(storyImageManager.currentImage, storyImageManager.transitionSettings.duration));
         }
 
-        SceneManager.LoadScene(storyImageManager.nextSceneName);
+        SceneManager.LoadScene(nextSceneName);
     }
 }
