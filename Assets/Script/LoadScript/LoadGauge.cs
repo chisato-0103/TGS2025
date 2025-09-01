@@ -53,7 +53,7 @@ public class LoadGauge : MonoBehaviour
     void GoNextScene()
     {
         // 4秒経ったらフェードアウト開始
-        StartCoroutine(fade.FadeOut(() =>
+        StartCoroutine(fade.FadeOut(() => //() => {...}のような処理をラムダ式と言い()以前の処理を行なった後にやる処理を書くときに使う。またこれを使わなかった場合はしっかりフェードしないで次の処理に行く可能性があるのでこうしている。
         {
             // フェードアウト終了後にシーン切り替え
             screenManager.StartGame();

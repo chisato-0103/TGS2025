@@ -20,27 +20,27 @@ public class Fade : MonoBehaviour
     {
         float t = 0;
         Color c = fadeImage.color;
-        while (t < fadeDuration)
+        while (t < fadeDuration)//フェード処理の条件
         {
             t += Time.deltaTime;
             c.a = Mathf.Lerp(0, 1, t / fadeDuration);
             fadeImage.color = c;
-            yield return null;
+            yield return null;//これをつけることにより1フレームごとに暗くすることを可能にしている
         }
-        onComplete?.Invoke();
+        onComplete?.Invoke();//これでフェード後の処理を行っている
     }
 
     public IEnumerator FadeIn(Action onComplete)
     {
         float t = 0;
         Color c = fadeImage.color;
-        while (t < fadeDuration)
+        while (t < fadeDuration)//フェードの条件
         {
             t += Time.deltaTime;
             c.a = Mathf.Lerp(1, 0, t / fadeDuration);
             fadeImage.color = c;
-            yield return null;
+            yield return null;//１フレームごとにフェードを動かすための処理
         }
-        onComplete?.Invoke();
+        onComplete?.Invoke();//フェード後の処理を行う
     }
 }
