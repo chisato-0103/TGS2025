@@ -7,15 +7,17 @@ public class LoadGauge : MonoBehaviour
     [SerializeField] private Slider progressBar;
     [SerializeField] private TextMeshProUGUI percentText;
     [SerializeField] private ScreenManager screenManager;
-    [SerializeField] private float duration = 0f; // 必ず5秒で終わる
+    [SerializeField] private float duration = 0f; // 必ず◯秒で終わる
 
     private float elapsedTime = 0f;
     private bool finished = false;
+    private Fade fade;
 
     void Start()
     {
         progressBar.value = 0f;
         percentText.text = "0%";
+        fade = FindObjectOfType<Fade>(); // フェード管理クラスを探す
     }
 
     void Update()
@@ -28,7 +30,6 @@ public class LoadGauge : MonoBehaviour
 
         // すごく終盤で減速するカーブ
         float eased = EaseOutQuint(t);
-        // もっと極端にしたい場合は EaseOutExpo(t) に変えてもOK
 
         // UIに反映
         progressBar.value = eased;
@@ -49,14 +50,16 @@ public class LoadGauge : MonoBehaviour
         return 1f - Mathf.Pow(1f - x, 2f);
     }
 
-    // さらに極端にしたいならこれ（Expo）
-    float EaseOutExpo(float x)
-    {
-        return (x == 1f) ? 1f : 1f - Mathf.Pow(2f, -10f * x);
-    }
-
     void GoNextScene()
     {
-        screenManager.StartGame();
+        // 4秒経ったらフェードアウト開始
+        StartCoroutine(fade.FadeOut(() =>
+        {
+            // フェードアウト終了後にシーン切り替え
+            screenManager.StartGame();
+
+            // 次のシーンに移ったらフェードイン開始
+            StartCoroutine(fade.FadeIn(() => { /* 何もしない */ }));
+        }));
     }
 }
