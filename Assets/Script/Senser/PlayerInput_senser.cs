@@ -19,6 +19,7 @@ public class PlayerInput_senser : MonoBehaviour
         {
             Debug.LogError("M5StickReaderが見つかりません。シーンに配置されていない可能性があります。");
         }
+        m5StickReader.setPower(0.0f);
     }
 
     // Update is called once per frame
