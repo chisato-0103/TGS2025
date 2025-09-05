@@ -211,6 +211,10 @@ public class M5StickReader : MonoBehaviour
     {
         return throwPoint;
     }
+    public float getRoll()
+    {
+        return roll;
+    }
 
     public void setPower(float pow)
     {
