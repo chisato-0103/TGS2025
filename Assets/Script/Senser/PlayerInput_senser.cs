@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerInput_senser : MonoBehaviour
@@ -6,6 +7,12 @@ public class PlayerInput_senser : MonoBehaviour
     private GameManager gameManager;
     // M5StickReaderへの参照を保持する変数
     private M5StickReader m5StickReader;
+
+    [SerializeField]
+    public AudioClip[] se;
+    [SerializeField]
+    AudioSource audioSource;
+
 
     // StartメソッドでGameManagerを一度だけ探して保持しておく
     void Start()
@@ -64,8 +71,10 @@ public class PlayerInput_senser : MonoBehaviour
                     }
                 }
                 target.Hit();
+                audioSource.PlayOneShot(se[Random.Range(0, se.Length)]);
             }
         }
         m5StickReader.setPower(0.0f);
+
     }
 }
