@@ -24,7 +24,7 @@ public class MusicManager : MonoBehaviour
         {
             if (sr.score == 1)
             {
-                StartCoroutine(DelayedAction(1f));
+                StartCoroutine(DelayedAction(2f));
             }
             else if (sr.score >= High)
             {
