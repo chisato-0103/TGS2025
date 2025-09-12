@@ -41,12 +41,12 @@ public class StoryImageManager_senser : MonoBehaviour
     void Update()
     {
         // 一度だけフラグを読む
-        bool throwAction = m5StickReader.ConsumeThrowActionFlag();
-        bool throwedFlag = m5StickReader.getThrowedActionFlag();
+        bool throwAction = m5StickReader.Consumepushedbutton();
+        bool throwedFlag = m5StickReader.getButtonFlag();
         float roll = m5StickReader.getRoll();
 
         // --- スキップ判定 ---
-        bool skipCondition = !throwedFlag && roll <= -30.0;
+        bool skipCondition = !throwedFlag && roll >= -20.0;
         if (skipCondition)
         {
             skipTimer += Time.deltaTime;
@@ -61,6 +61,11 @@ public class StoryImageManager_senser : MonoBehaviour
         else
         {
             skipTimer = 0f; // 条件が途切れたらリセット
+        }
+
+        if (m5StickReader.getButtonFlag())
+        {
+            m5StickReader.setPushedButton(true);
         }
 
         // --- 通常のページ送り処理 ---
@@ -80,8 +85,8 @@ public class StoryImageManager_senser : MonoBehaviour
         }
         else
         {
-            m5StickReader.setThrowedActionFlag(false);
-            m5StickReader.SendFlag(false);
+            //m5StickReader.setThrowedActionFlag(false);
+            //m5StickReader.SendFlag(false);
         }
     }
 

@@ -32,6 +32,7 @@ public class PlayerInput_senser : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         if (m5StickReader.ConsumeThrowActionFlag() && !m5StickReader.getThrowedActionFlag())
         {
             Vector2 worldPoint = m5StickReader.getThrowPos();
@@ -43,6 +44,20 @@ public class PlayerInput_senser : MonoBehaviour
         {
             m5StickReader.setThrowedActionFlag(false);
             m5StickReader.SendFlag(false);
+        }
+        */
+
+        if(m5StickReader.getButtonFlag())
+        {
+            m5StickReader.setPushedButton(true);
+        }
+
+        if (m5StickReader.Consumepushedbutton() && !m5StickReader.getButtonFlag())
+        {
+            Vector2 worldPoint = m5StickReader.getThrowPos();
+
+            confirmationtTargetHitSenser(worldPoint);
+            m5StickReader.setThrowedActionFlag(true);
         }
 
         Debug.Log("x: " + m5StickReader.getThrowPos().x + " y: " + m5StickReader.getThrowPos().y + " throw: " + m5StickReader.getThrowedActionFlag());

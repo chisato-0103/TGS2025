@@ -51,10 +51,12 @@ public class M5StickReader : MonoBehaviour
 
     private float roll;
     private bool tflag;
+    private bool buttonFlag;
     private float power;
     private float yaw;
     private bool throwActionFlag;
     private bool throwedActionFlag;
+    private bool pushedbutton;
     private Vector2 throwPoint;
     private DisplaySize displaySize;
 
@@ -69,6 +71,8 @@ public class M5StickReader : MonoBehaviour
         throwActionFlag = false;
         throwedActionFlag = false;
         tflag = false;
+        buttonFlag = false;
+        pushedbutton = false;
 
         OpenSerialPort(portPower, queuePower, out serialPower, out threadPower);
         OpenSerialPort(portYaw, queueYaw, out serialYaw, out threadYaw);
@@ -133,6 +137,7 @@ public class M5StickReader : MonoBehaviour
         // Power & Flag の処理
         while (queuePower.TryDequeue(out string lineR))
         {
+            /*
             if (float.TryParse(lineR, out float r))
                 roll = r;
 
@@ -153,6 +158,28 @@ public class M5StickReader : MonoBehaviour
             }
 
             throwPoint.y = 8f * (power / 100f) - 4f;
+            */
+            // 数値なら roll にする
+            if (float.TryParse(lineR, out float r))
+            {
+                roll = r;
+            }
+            // 0 or 1 なら digitalRead(26) の値として扱う
+            else if (lineR == "0" || lineR == "1")
+            {
+                buttonFlag = (lineR == "1");
+            }
+            else
+            {
+                Debug.Log("未知のデータ: " + lineR);
+            }
+
+            if (roll < 0.0f)
+                throwPoint.y = -4f;
+            else if (roll >= 60.0f)
+                throwPoint.y = 8f * (-roll / 60.0f) - 4f;
+            else
+                throwPoint.y = 4f;
         }
 
         // --- yaw 処理 ---
@@ -193,7 +220,13 @@ public class M5StickReader : MonoBehaviour
 
     public float getTarget_y()
     {
-        return 8 * (power / 100.0f) - 4;
+        //return 8 * (power / 100.0f) - 4;
+        if (roll < 0.0f)
+            return -4f;
+        else if (roll >= 60.0f)
+            return 8f * (-roll / 60.0f) - 4f;
+        else
+            return 4f;
     }
     public float getTarget_x()
     {
@@ -215,6 +248,10 @@ public class M5StickReader : MonoBehaviour
     {
         return roll;
     }
+    public bool getButtonFlag()
+    {
+        return buttonFlag;
+    }
 
     public void setPower(float pow)
     {
@@ -227,6 +264,10 @@ public class M5StickReader : MonoBehaviour
     public void setThrowActionFlag(bool flag)
     {
         throwActionFlag = flag;
+    }
+    public void setPushedButton(bool flag)
+    {
+        pushedbutton = flag;
     }
 
     public void resetThrowFlag()
@@ -245,6 +286,19 @@ public class M5StickReader : MonoBehaviour
         }
         return false;
     }
+
+
+
+    public bool Consumepushedbutton()
+    {
+        if (pushedbutton)
+        {
+            pushedbutton = false; // 一度読んだらリセット
+            return true;
+        }
+        return false;
+    }
+
 
     void OnApplicationQuit()
     {

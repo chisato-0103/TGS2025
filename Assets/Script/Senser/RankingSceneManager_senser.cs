@@ -13,8 +13,13 @@ public class RankingSceneManager_senser : MonoBehaviour
 
     void Update()
     {
+        if (m5StickReader.getButtonFlag())
+        {
+            m5StickReader.setPushedButton(true);
+        }
+
         // 遷移可能な状態でマウスクリックまたはタップを検知
-        if (m5StickReader.ConsumeThrowActionFlag() && !m5StickReader.getThrowedActionFlag())
+        if (m5StickReader.Consumepushedbutton() && !m5StickReader.getButtonFlag())
         {
             Debug.Log("Gコンが投げる動作をしました - ストーリーシーンへ遷移");
             ScreenManager screenManager = FindObjectOfType<ScreenManager>();
