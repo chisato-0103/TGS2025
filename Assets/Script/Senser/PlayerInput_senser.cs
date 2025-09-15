@@ -47,7 +47,7 @@ public class PlayerInput_senser : MonoBehaviour
         }
         */
 
-        if(m5StickReader.getButtonFlag())
+        if (m5StickReader.getButtonFlag())
         {
             m5StickReader.setPushedButton(true);
         }
@@ -55,7 +55,7 @@ public class PlayerInput_senser : MonoBehaviour
         if (m5StickReader.Consumepushedbutton() && !m5StickReader.getButtonFlag())
         {
             Vector2 worldPoint = m5StickReader.getThrowPos();
-
+            m5StickReader.setPushedButton(false);
             confirmationtTargetHitSenser(worldPoint);
             m5StickReader.setThrowedActionFlag(true);
         }

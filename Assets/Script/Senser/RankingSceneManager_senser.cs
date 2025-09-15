@@ -13,6 +13,7 @@ public class RankingSceneManager_senser : MonoBehaviour
 
     void Update()
     {
+        
         if (m5StickReader.getButtonFlag())
         {
             m5StickReader.setPushedButton(true);
@@ -20,6 +21,23 @@ public class RankingSceneManager_senser : MonoBehaviour
 
         // 遷移可能な状態でマウスクリックまたはタップを検知
         if (m5StickReader.Consumepushedbutton() && !m5StickReader.getButtonFlag())
+        {
+            Debug.Log("Gコンが投げる動作をしました - ストーリーシーンへ遷移");
+            ScreenManager screenManager = FindObjectOfType<ScreenManager>();
+            m5StickReader.setPushedButton(false);
+            if (screenManager != null)
+            {
+                screenManager.GoToTitleScene();
+            }
+            else
+            {
+                Debug.LogError("ScreenManagerが見つかりませんでした");
+            }
+        }
+
+        /*
+        // 遷移可能な状態でマウスクリックまたはタップを検知
+        if (m5StickReader.ConsumeThrowActionFlag() && !m5StickReader.getThrowedActionFlag())
         {
             Debug.Log("Gコンが投げる動作をしました - ストーリーシーンへ遷移");
             ScreenManager screenManager = FindObjectOfType<ScreenManager>();
@@ -32,5 +50,6 @@ public class RankingSceneManager_senser : MonoBehaviour
                 Debug.LogError("ScreenManagerが見つかりませんでした");
             }
         }
+        */
     }
 }

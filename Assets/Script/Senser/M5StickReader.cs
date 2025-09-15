@@ -137,6 +137,7 @@ public class M5StickReader : MonoBehaviour
         // Power & Flag の処理
         while (queuePower.TryDequeue(out string lineR))
         {
+
             /*
             if (float.TryParse(lineR, out float r))
                 roll = r;
@@ -159,27 +160,26 @@ public class M5StickReader : MonoBehaviour
 
             throwPoint.y = 8f * (power / 100f) - 4f;
             */
-            // 数値なら roll にする
-            if (float.TryParse(lineR, out float r))
+           　// roll,flag の形式だけ通す (-12.34,0 や 45,1 など)
+            lineR = lineR.Trim();
+
+            if (System.Text.RegularExpressions.Regex.IsMatch(lineR, @"^-?\d+(\.\d+)?,[01]$"))
             {
-                roll = r;
-            }
-            // 0 or 1 なら digitalRead(26) の値として扱う
-            else if (lineR == "0" || lineR == "1")
-            {
-                buttonFlag = (lineR == "1");
+                string[] parts = lineR.Split(',');
+                roll = float.Parse(parts[0]);
+                buttonFlag = (parts[1] == "1");
+                Debug.Log(roll + "," + buttonFlag);
             }
             else
             {
-                Debug.Log("未知のデータ: " + lineR);
+                // それ以外のログやゴミは完全無視
+                continue;
             }
 
-            if (roll < 0.0f)
-                throwPoint.y = -4f;
-            else if (roll >= 60.0f)
-                throwPoint.y = 8f * (-roll / 60.0f) - 4f;
-            else
-                throwPoint.y = 4f;
+
+            throwPoint.y = 8f * (-roll / 60.0f) - 4f;
+
+            
         }
 
         // --- yaw 処理 ---
@@ -220,13 +220,8 @@ public class M5StickReader : MonoBehaviour
 
     public float getTarget_y()
     {
-        //return 8 * (power / 100.0f) - 4;
-        if (roll < 0.0f)
-            return -4f;
-        else if (roll >= 60.0f)
-            return 8f * (-roll / 60.0f) - 4f;
-        else
-            return 4f;
+        return 8f * (-roll / 60.0f) - 4f;
+
     }
     public float getTarget_x()
     {
@@ -292,8 +287,7 @@ public class M5StickReader : MonoBehaviour
     public bool Consumepushedbutton()
     {
         if (pushedbutton)
-        {
-            pushedbutton = false; // 一度読んだらリセット
+        { 
             return true;
         }
         return false;

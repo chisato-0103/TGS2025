@@ -46,7 +46,7 @@ public class StoryImageManager_senser : MonoBehaviour
         float roll = m5StickReader.getRoll();
 
         // --- スキップ判定 ---
-        bool skipCondition = !throwedFlag && roll >= -20.0;
+        bool skipCondition = !throwedFlag && roll <= -40.0;
         if (skipCondition)
         {
             skipTimer += Time.deltaTime;
@@ -71,6 +71,7 @@ public class StoryImageManager_senser : MonoBehaviour
         // --- 通常のページ送り処理 ---
         if (throwAction && !throwedFlag && !isTransitioning)
         {
+            m5StickReader.setPushedButton(false);
             if (isTransitioning) return;
 
             if (currentIndex < storyImageManager.storySprites.Count - 1)
@@ -88,6 +89,53 @@ public class StoryImageManager_senser : MonoBehaviour
             //m5StickReader.setThrowedActionFlag(false);
             //m5StickReader.SendFlag(false);
         }
+
+        /*
+        // 一度だけフラグを読む
+        bool throwAction = m5StickReader.ConsumeThrowActionFlag();
+        bool throwedFlag = m5StickReader.getThrowedActionFlag();
+        float targetY = m5StickReader.getTarget_y();
+
+        // --- スキップ判定 ---
+        bool skipCondition = !throwedFlag && targetY > 3;
+
+        if (skipCondition)
+        {
+            skipTimer += Time.deltaTime;
+
+            if (skipTimer >= skipThreshold)
+            {
+                Debug.Log("条件が3秒間続いたのでストーリーをスキップします！");
+                StartCoroutine(GoToNextScene());
+                skipTimer = 0f; // リセット
+            }
+        }
+        else
+        {
+            skipTimer = 0f; // 条件が途切れたらリセット
+        }
+        // --- 通常のページ送り処理 ---
+        if (throwAction && !throwedFlag && !isTransitioning)
+        {
+            if (isTransitioning) return;
+
+            if (currentIndex < storyImageManager.storySprites.Count - 1)
+            {
+                StartCoroutine(TransitionToImage(currentIndex + 1, true));
+            }
+            else
+            {
+                StartCoroutine(GoToNextScene());
+            }
+            m5StickReader.setThrowedActionFlag(true);
+        }
+        else
+        {
+            m5StickReader.setThrowedActionFlag(false);
+            m5StickReader.SendFlag(false);
+        }
+        */
+
     }
 
     private IEnumerator TransitionToImage(int targetIndex, bool goingForward)
