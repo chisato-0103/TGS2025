@@ -43,10 +43,10 @@ public class StoryImageManager_senser : MonoBehaviour
         // 一度だけフラグを読む
         bool throwAction = m5StickReader.Consumepushedbutton();
         bool throwedFlag = m5StickReader.getButtonFlag();
-        float roll = m5StickReader.getRoll();
+        float roll = m5StickReader.getTarget_y();
 
         // --- スキップ判定 ---
-        bool skipCondition = !throwedFlag && roll <= -40.0;
+        bool skipCondition = (roll > 0.0);
         if (skipCondition)
         {
             skipTimer += Time.deltaTime;
