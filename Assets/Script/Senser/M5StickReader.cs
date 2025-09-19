@@ -57,6 +57,7 @@ public class M5StickReader : MonoBehaviour
     private bool throwActionFlag;
     private bool throwedActionFlag;
     private bool pushedbutton;
+    private bool pushOKButton;
     private Vector2 throwPoint;
     private DisplaySize displaySize;
 
@@ -73,6 +74,7 @@ public class M5StickReader : MonoBehaviour
         tflag = false;
         buttonFlag = false;
         pushedbutton = false;
+        pushOKButton = false;
 
         OpenSerialPort(portPower, queuePower, out serialPower, out threadPower);
         OpenSerialPort(portYaw, queueYaw, out serialYaw, out threadYaw);
@@ -255,6 +257,10 @@ public class M5StickReader : MonoBehaviour
     {
         return buttonFlag;
     }
+    public bool getPushOKButton()
+    {
+        return pushOKButton;
+    }
 
     public void setPower(float pow)
     {
@@ -271,6 +277,10 @@ public class M5StickReader : MonoBehaviour
     public void setPushedButton(bool flag)
     {
         pushedbutton = flag;
+    }
+    public void setPushOKButton(bool flag)
+    {
+        pushOKButton = flag;
     }
 
     public void resetThrowFlag()

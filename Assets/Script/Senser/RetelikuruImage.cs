@@ -25,7 +25,7 @@ public class RetelikuruImage : MonoBehaviour
     {
         if (m5StickReader == null || Rete == null) return;
 
-        bool isPressed = m5StickReader.getButtonFlag();
+        bool isPressed = m5StickReader.getButtonFlag() && m5StickReader.getPushOKButton();
         //Rete.SetActive(isPressed);
 
         if (m5StickReader != null && Rete != null)

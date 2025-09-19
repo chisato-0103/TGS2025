@@ -47,9 +47,15 @@ public class PlayerInput_senser : MonoBehaviour
         }
         */
 
-        if (m5StickReader.getButtonFlag())
+        if(m5StickReader.getTarget_y() < -3.0f)
+        {
+            m5StickReader.setPushOKButton(true);
+        }
+
+        if (m5StickReader.getButtonFlag() && m5StickReader.getPushOKButton())
         {
             m5StickReader.setPushedButton(true);
+            
         }
 
         if (m5StickReader.Consumepushedbutton() && !m5StickReader.getButtonFlag())
@@ -58,6 +64,7 @@ public class PlayerInput_senser : MonoBehaviour
             m5StickReader.setPushedButton(false);
             confirmationtTargetHitSenser(worldPoint);
             m5StickReader.setThrowedActionFlag(true);
+            m5StickReader.setPushOKButton(false);
         }
 
         Debug.Log("x: " + m5StickReader.getThrowPos().x + " y: " + m5StickReader.getThrowPos().y + " throw: " + m5StickReader.getThrowedActionFlag());
