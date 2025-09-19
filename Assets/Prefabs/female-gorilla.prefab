@@ -149,3 +149,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   points: 1
   lifetime: 3
+  hitEffectSprite: {fileID: -7684011976488959242, guid: 1ed04c56756f94d5494df328f4460446, type: 3}
