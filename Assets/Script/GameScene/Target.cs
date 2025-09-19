@@ -17,6 +17,10 @@ public class Target : MonoBehaviour
     [SerializeField]
     private Sprite hitEffectSprite;
 
+    //ヒットエフェクトの表示時間（秒）
+    [SerializeField]
+    private float hitEffectDuration = 2.0f;
+
     //現在のSpriteRendererへの参照
     private SpriteRenderer spriteRenderer;
 
@@ -57,8 +61,8 @@ public class Target : MonoBehaviour
             Debug.Log("ヒットエフェクト: スプライトを変更しました");
         }
 
-        // 2秒待機
-        yield return new WaitForSeconds(2.0f);
+        // 設定された時間だけ待機
+        yield return new WaitForSeconds(hitEffectDuration);
 
         // オブジェクトを破棄
         Debug.Log("ヒットエフェクト終了: オブジェクトを破棄");
