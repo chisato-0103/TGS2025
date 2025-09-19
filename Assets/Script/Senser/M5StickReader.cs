@@ -177,9 +177,13 @@ public class M5StickReader : MonoBehaviour
             }
 
 
-            throwPoint.y = 8f * (-roll / 60.0f) - 4f;
+            throwPoint.y = 8f * (-roll / 70.0f) - 4f;
+            if (throwPoint.y < -4.0f)
+            {
+                throwPoint.y = -4.0f;
+            }
 
-            
+
         }
 
         // --- yaw 処理 ---
@@ -220,7 +224,11 @@ public class M5StickReader : MonoBehaviour
 
     public float getTarget_y()
     {
-        return 8f * (-roll / 60.0f) - 4f;
+        float y = 8f * (-roll / 70.0f) - 4f;
+        if (y < -4.0f)
+            return -4.0f;
+        else
+            return y;
 
     }
     public float getTarget_x()

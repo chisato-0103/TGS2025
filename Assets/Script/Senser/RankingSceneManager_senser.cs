@@ -25,13 +25,16 @@ public class RankingSceneManager_senser : MonoBehaviour
             Debug.Log("Gコンが投げる動作をしました - ストーリーシーンへ遷移");
             ScreenManager screenManager = FindObjectOfType<ScreenManager>();
             m5StickReader.setPushedButton(false);
-            if (screenManager != null)
+            if (m5StickReader.getTarget_y() > -3.0f)
             {
-                screenManager.GoToTitleScene();
-            }
-            else
-            {
-                Debug.LogError("ScreenManagerが見つかりませんでした");
+                if (screenManager != null)
+                {
+                    screenManager.GoToTitleScene();
+                }
+                else
+                {
+                    Debug.LogError("ScreenManagerが見つかりませんでした");
+                }
             }
         }
 

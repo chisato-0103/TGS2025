@@ -72,15 +72,18 @@ public class StoryImageManager_senser : MonoBehaviour
         if (throwAction && !throwedFlag && !isTransitioning)
         {
             m5StickReader.setPushedButton(false);
-            if (isTransitioning) return;
+            if(m5StickReader.getTarget_y() > -3.0f)
+            {
+                if (isTransitioning) return;
 
-            if (currentIndex < storyImageManager.storySprites.Count - 1)
-            {
-                StartCoroutine(TransitionToImage(currentIndex + 1, true));
-            }
-            else
-            {
-                StartCoroutine(GoToNextScene());
+                if (currentIndex < storyImageManager.storySprites.Count - 1)
+                {
+                    StartCoroutine(TransitionToImage(currentIndex + 1, true));
+                }
+                else
+                {
+                    StartCoroutine(GoToNextScene());
+                }
             }
             m5StickReader.setThrowedActionFlag(true);
         }
