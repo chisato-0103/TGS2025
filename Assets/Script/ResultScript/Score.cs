@@ -27,6 +27,14 @@ public class Score : MonoBehaviour
         else
         {
             ScoreText.text = score.ToString("F0"); //表示スコアが不足、または大きい場合に備えてここでscoreの値を入れている
+            if (start >= 5.0 && score == 1)
+            {
+                ScoreText.enabled = false;
+            }
+            else
+            {
+                start += Time.deltaTime; //ここで現在の時間を進めている
+            }
         }
     }
 }
