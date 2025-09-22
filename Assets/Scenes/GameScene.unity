@@ -965,13 +965,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreText: {fileID: 1394282777}
   timerText: {fileID: 97749164}
-  timeLimit: 30
+  timeLimit: 60
   comboGauge: {fileID: 1606794112}
   maxCombo: 10
   preEffectVideoPlayer: {fileID: 1183436873}
   preEffectVideoUI: {fileID: 1675360796}
   feverVideoPlayer: {fileID: 800709876}
   feverVideoUI: {fileID: 1289523331}
+  feverVideoClips:
+  - {fileID: 32900000, guid: c0f7dbf99fdaa4bfb879d8d1b9d3fd2f, type: 3}
+  - {fileID: 32900000, guid: bb104f525718c4b469bbc07111cd960f, type: 3}
   comboGaugeDecreaseRate: 0.8
 --- !u!114 &800709875
 MonoBehaviour:
@@ -993,7 +996,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 800709871}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: dcb019892b36b4101ab1b7c0f2435bac, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: c0f7dbf99fdaa4bfb879d8d1b9d3fd2f, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -1270,7 +1273,7 @@ SpriteRenderer:
   m_SortingLayerID: 2064624679
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1396135716666188808, guid: 1b45e302c5732460c88dfa71c0689b0a, type: 3}
+  m_Sprite: {fileID: 2242444559987806358, guid: c0ec3f468ae7d431bb629ff5ecd77ec8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
