@@ -51,10 +51,13 @@ public class M5StickReader : MonoBehaviour
 
     private float roll;
     private bool tflag;
+    private bool buttonFlag;
     private float power;
     private float yaw;
     private bool throwActionFlag;
     private bool throwedActionFlag;
+    private bool pushedbutton;
+    private bool pushOKButton;
     private Vector2 throwPoint;
     private DisplaySize displaySize;
 
@@ -69,6 +72,9 @@ public class M5StickReader : MonoBehaviour
         throwActionFlag = false;
         throwedActionFlag = false;
         tflag = false;
+        buttonFlag = false;
+        pushedbutton = false;
+        pushOKButton = false;
 
         OpenSerialPort(portPower, queuePower, out serialPower, out threadPower);
         OpenSerialPort(portYaw, queueYaw, out serialYaw, out threadYaw);
@@ -133,6 +139,8 @@ public class M5StickReader : MonoBehaviour
         // Power & Flag の処理
         while (queuePower.TryDequeue(out string lineR))
         {
+
+            /*
             if (float.TryParse(lineR, out float r))
                 roll = r;
 
@@ -153,6 +161,31 @@ public class M5StickReader : MonoBehaviour
             }
 
             throwPoint.y = 8f * (power / 100f) - 4f;
+            */
+           　// roll,flag の形式だけ通す (-12.34,0 や 45,1 など)
+            lineR = lineR.Trim();
+
+            if (System.Text.RegularExpressions.Regex.IsMatch(lineR, @"^-?\d+(\.\d+)?,[01]$"))
+            {
+                string[] parts = lineR.Split(',');
+                roll = float.Parse(parts[0]);
+                buttonFlag = (parts[1] == "1");
+                Debug.Log(roll + "," + buttonFlag);
+            }
+            else
+            {
+                // それ以外のログやゴミは完全無視
+                continue;
+            }
+
+
+            throwPoint.y = 8f * (-roll / 70.0f) - 4f;
+            if (throwPoint.y < -4.0f)
+            {
+                throwPoint.y = -4.0f;
+            }
+
+
         }
 
         // --- yaw 処理 ---
@@ -161,7 +194,7 @@ public class M5StickReader : MonoBehaviour
             if (float.TryParse(lineY, out float y))
                 yaw = y;
 
-            throwPoint.x = -6.0f * yaw / 45f;
+            throwPoint.x = 6.0f * yaw / 30.0f;
         }
     }
 
@@ -193,11 +226,16 @@ public class M5StickReader : MonoBehaviour
 
     public float getTarget_y()
     {
-        return 8 * (power / 100.0f) - 4;
+        float y = 8f * (-roll / 70.0f) - 4f;
+        if (y < -4.0f)
+            return -4.0f;
+        else
+            return y;
+
     }
     public float getTarget_x()
     {
-        return -6 * yaw / 45.0f;
+        return 6 * yaw / 30.0f;
     }
     public bool getThrowActionflag()
     {
@@ -211,6 +249,18 @@ public class M5StickReader : MonoBehaviour
     {
         return throwPoint;
     }
+    public float getRoll()
+    {
+        return roll;
+    }
+    public bool getButtonFlag()
+    {
+        return buttonFlag;
+    }
+    public bool getPushOKButton()
+    {
+        return pushOKButton;
+    }
 
     public void setPower(float pow)
     {
@@ -223,6 +273,14 @@ public class M5StickReader : MonoBehaviour
     public void setThrowActionFlag(bool flag)
     {
         throwActionFlag = flag;
+    }
+    public void setPushedButton(bool flag)
+    {
+        pushedbutton = flag;
+    }
+    public void setPushOKButton(bool flag)
+    {
+        pushOKButton = flag;
     }
 
     public void resetThrowFlag()
@@ -241,6 +299,18 @@ public class M5StickReader : MonoBehaviour
         }
         return false;
     }
+
+
+
+    public bool Consumepushedbutton()
+    {
+        if (pushedbutton)
+        { 
+            return true;
+        }
+        return false;
+    }
+
 
     void OnApplicationQuit()
     {
