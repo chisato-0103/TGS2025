@@ -964,9 +964,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreText: {fileID: 1394282777}
   timerText: {fileID: 97749164}
-
-  timeLimit: 60
-
+  timeLimit: 120
   comboGauge: {fileID: 1606794112}
   maxCombo: 10
   preEffectVideoPlayer: {fileID: 1183436873}
@@ -997,7 +995,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 800709871}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: c0f7dbf99fdaa4bfb879d8d1b9d3fd2f, type: 3}
+  m_VideoClip: {fileID: 0}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -1558,7 +1556,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4896abfecc204582b59cbc9c3a01908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rete: {fileID: 1210463212}
   Rete: {fileID: 1210463210}
 --- !u!1 &1289523331
 GameObject:
