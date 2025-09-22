@@ -55,7 +55,6 @@ public class TutorialPlayerInput_senser : MonoBehaviour
         if (m5StickReader.getButtonFlag() && m5StickReader.getPushOKButton())
         {
             m5StickReader.setPushedButton(true);
-            
         }
 
         if (m5StickReader.Consumepushedbutton() && !m5StickReader.getButtonFlag())
@@ -74,18 +73,14 @@ public class TutorialPlayerInput_senser : MonoBehaviour
     {
         float hitRadius = 0.8f; // 半径は調整可能
         Collider2D[] hits = Physics2D.OverlapCircleAll(worldPoint, hitRadius);
-        Debug.Log("0000000000000000000000000000000000000000");
         foreach (Collider2D col in hits)
         {
             Target target = col.GetComponent<Target>();
-            Debug.Log("11111111111111111111111111111111111111111");
             if (target != null)
             {
-                Debug.Log("222222222222222222222222222222222222222222222");
                 if (TutoManager != null)
                 {
                     TutoManager.AddScore(target.points);
-                    Debug.Log("333333333333333333333333333333333333333333333333333");
                     if (target.points > 0)
                     {
                         TutoManager.AddCombo(1);
