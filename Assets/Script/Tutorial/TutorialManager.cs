@@ -104,7 +104,8 @@ public class TutorialManager : MonoBehaviour
 
         // もし残り時間が0以下になったら
         //if (currentTime <= 0)
-        if(Input.GetKeyDown(KeyCode.Escape))
+        //if(Input.GetKeyDown(KeyCode.Escape))
+        if(currentScore >= 4)
         {
             currentTime = 0; // マイナス表示を防ぐ
             isGameActive = false; // ゲームを非アクティブにする
