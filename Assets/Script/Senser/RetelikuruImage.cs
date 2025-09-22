@@ -3,7 +3,7 @@ using UnityEngine;
 public class RetelikuruImage : MonoBehaviour
 {
     private M5StickReader m5StickReader;
-    public Transform rete; // RectTransform ではなく Transform に変更
+    [SerializeField] private GameObject Rete;
 
     void Start()
     {
@@ -13,17 +13,32 @@ public class RetelikuruImage : MonoBehaviour
         {
             Debug.LogError("M5StickReaderが見つかりません！");
         }
+
+
+        if (Rete != null)
+        {
+            //Rete.SetActive(false); // 初期状態は非表示
+        }
     }
 
     void Update()
     {
-        if (m5StickReader != null && rete != null)
+        if (m5StickReader == null || Rete == null) return;
+
+        bool isPressed = m5StickReader.getButtonFlag() && m5StickReader.getPushOKButton();
+        //Rete.SetActive(isPressed);
+
+        if (m5StickReader != null && Rete != null)
         {
             // M5Stickの座標をScene上のSpriteに反映
             float x = m5StickReader.getTarget_x();
             float y = m5StickReader.getTarget_y();
 
-            rete.position = new Vector3(x, y, rete.position.z); // Z座標はそのまま維持
+            if(isPressed)
+                Rete.transform.position = new Vector3(x, y, Rete.transform.position.z);// Z座標はそのまま維持
+            else
+                Rete.transform.position = new Vector3(-99, -99, Rete.transform.position.z);// Z座標はそのまま維持
+
         }
     }
 }
