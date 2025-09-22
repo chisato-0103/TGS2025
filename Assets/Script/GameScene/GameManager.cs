@@ -48,6 +48,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject feverVideoUI; // 動画表示用のRawImageのGameObject
 
+    // --- 複数フィーバー動画関連の変数 ---
+    [SerializeField]
+    private VideoClip[] feverVideoClips; // フィーバー動画の配列（Inspector で設定）
+    private int feverCount = 0; // フィーバー発生回数
+
     private bool isFeverActive = false; // フィーバーモードが有効かどうか
 
 
@@ -320,7 +325,8 @@ public class GameManager : MonoBehaviour
         }
 
         isFeverActive = true;
-        Debug.Log("フィーバーモード開始！");
+        feverCount++; // フィーバー回数をカウントアップ
+        Debug.Log($"フィーバーモード開始！（{feverCount}回目）");
 
         // フィーバー動画中はタイマーを一時停止
         isTimerPaused = true;
@@ -339,6 +345,14 @@ public class GameManager : MonoBehaviour
         // VideoPlayerの設定を確実にしてから再生
         if (feverVideoPlayer != null)
         {
+            // フィーバー回数に応じて動画を選択
+            VideoClip selectedClip = GetFeverVideoClip(feverCount);
+            if (selectedClip != null)
+            {
+                feverVideoPlayer.clip = selectedClip;
+                Debug.Log($"フィーバー動画を設定: {selectedClip.name}");
+            }
+
             feverVideoPlayer.isLooping = false; // ループしないように設定
             feverVideoPlayer.Play();
         }
@@ -355,6 +369,28 @@ public class GameManager : MonoBehaviour
         }
         
         // コンボゲージ減少は動画終了後に開始（動画終了コールバックで開始）
+    }
+
+    // フィーバー回数に応じて動画クリップを取得
+    private VideoClip GetFeverVideoClip(int currentFeverCount)
+    {
+        if (feverVideoClips == null || feverVideoClips.Length == 0)
+        {
+            Debug.LogWarning("フィーバー動画クリップが設定されていません");
+            return null;
+        }
+
+        // 1回目は最初の動画、2回目以降は2番目の動画（配列範囲内で）
+        if (currentFeverCount == 1)
+        {
+            return feverVideoClips[0]; // 1回目のフィーバー動画
+        }
+        else
+        {
+            // 2回目以降は2番目の動画を使用（配列に2つ目がある場合）
+            int clipIndex = feverVideoClips.Length > 1 ? 1 : 0;
+            return feverVideoClips[clipIndex];
+        }
     }
 
     // 動画終了時の処理

@@ -395,7 +395,7 @@ MonoBehaviour:
   - {fileID: -7716165885658221545, guid: d87be0a4a37f3482082fb5bae9b0d154, type: 3}
   - {fileID: 8632679736242490380, guid: 6a5ec355f589143c98b9c2d6cbfc9b2c, type: 3}
   - {fileID: -7121927046625088553, guid: 8b1fcfb45b55e4c2487bb9afee02bc11, type: 3}
-  nextSceneName: GameScene
+  nextSceneName: Load
 --- !u!114 &1660785747
 MonoBehaviour:
   m_ObjectHideFlags: 0
