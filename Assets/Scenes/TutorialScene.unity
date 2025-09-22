@@ -136,7 +136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &97749164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -589,7 +589,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &473613976
 Transform:
   m_ObjectHideFlags: 0
@@ -912,7 +912,6 @@ GameObject:
   m_Component:
   - component: {fileID: 800709873}
   - component: {fileID: 800709872}
-  - component: {fileID: 800709874}
   - component: {fileID: 800709875}
   - component: {fileID: 800709876}
   - component: {fileID: 800709877}
@@ -952,28 +951,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &800709874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 800709871}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bad3748f3fb8a4d7fad13f98afa9c469, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scoreText: {fileID: 1394282777}
-  timerText: {fileID: 97749164}
-  timeLimit: 30
-  comboGauge: {fileID: 1606794112}
-  maxCombo: 10
-  preEffectVideoPlayer: {fileID: 1183436873}
-  preEffectVideoUI: {fileID: 1675360796}
-  feverVideoPlayer: {fileID: 800709876}
-  feverVideoUI: {fileID: 1289523331}
-  comboGaugeDecreaseRate: 0.8
 --- !u!114 &800709875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1145,7 +1122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreText: {fileID: 1394282777}
   timerText: {fileID: 97749164}
-  timeLimit: 60
+  timeLimit: 0
   comboGauge: {fileID: 1606794112}
   maxCombo: 10
   preEffectVideoPlayer: {fileID: 1183436873}
@@ -1248,7 +1225,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &984924986
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1677,7 +1654,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1309738124
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1715,7 +1692,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1393896859
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1803,7 +1780,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1394282777
 MonoBehaviour:
   m_ObjectHideFlags: 0

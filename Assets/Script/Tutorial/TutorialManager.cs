@@ -244,7 +244,7 @@ public class TutorialManager : MonoBehaviour
         if (!wasMaxBefore && nowSize.x >= maxWidth && !isFeverActive)
         {
             Debug.Log("フィーバーモード発動条件を満たしました");
-            StartPreEffectVideo();
+            //StartPreEffectVideo();
         }
 
         yield return null;
