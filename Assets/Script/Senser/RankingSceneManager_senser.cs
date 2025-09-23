@@ -5,6 +5,7 @@ public class RankingSceneManager_senser : MonoBehaviour
     // M5StickReaderへの参照を保持する変数
     private M5StickReader m5StickReader;
 
+
     void Start()
     {
         // シーン内からM5StickReaderコンポーネントを探してくる
