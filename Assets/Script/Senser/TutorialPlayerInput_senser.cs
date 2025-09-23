@@ -8,6 +8,8 @@ public class TutorialPlayerInput_senser : MonoBehaviour
     // M5StickReaderへの参照を保持する変数
     private M5StickReader m5StickReader;
 
+    private PlayerInput_senser playerInput_Senser;
+
     [SerializeField]
     public AudioClip[] se;
     [SerializeField]
@@ -47,7 +49,7 @@ public class TutorialPlayerInput_senser : MonoBehaviour
         }
         */
 
-        if(m5StickReader.getTarget_y() < -3.0f)
+        if(m5StickReader.getTarget_y() < playerInput_Senser.activationYthreshold())
         {
             m5StickReader.setPushOKButton(true);
         }

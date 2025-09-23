@@ -2106,6 +2106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68c4f9d3d3b674fe9950e7d2adab4943, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activationYThreshold: -2
   se:
   - {fileID: 8300000, guid: 3e9b0df5a81904568a011041c67e5343, type: 3}
   - {fileID: 8300000, guid: e43b085341c5445bc896e657f337d2d9, type: 3}
