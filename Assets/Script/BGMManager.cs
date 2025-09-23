@@ -6,6 +6,8 @@ public class BGMManager : MonoBehaviour
     private AudioSource normalBgmAudioSource; // 通常BGM用のAudioSource
     [SerializeField]
     private AudioSource feverBgmAudioSource; // フィーバーBGM用のAudioSource
+    [SerializeField]
+    private AudioSource countdownAudioSource; // カウントダウン用のAudioSource
 
     public static BGMManager Instance;
 
@@ -26,8 +28,8 @@ public class BGMManager : MonoBehaviour
 
     void Start()
     {
-        // 通常BGMの開始
-        StartNormalBGM();
+        // ゲーム開始時にBGMは自動開始しない
+        // GameManagerのStartActualGame()から呼び出される
     }
 
     // 通常BGMを開始
@@ -126,6 +128,40 @@ public class BGMManager : MonoBehaviour
         if (feverBgmAudioSource != null)
         {
             feverBgmAudioSource.volume = Mathf.Clamp01(volume);
+        }
+    }
+
+    // カウントダウン音声を再生
+    public void PlayCountdownSound(AudioClip clip)
+    {
+        if (countdownAudioSource != null && clip != null)
+        {
+            countdownAudioSource.clip = clip;
+            countdownAudioSource.Play();
+            Debug.Log("カウントダウン音声再生: " + clip.name);
+        }
+        else
+        {
+            Debug.LogWarning("カウントダウン AudioSourceまたはAudioClipが設定されていません");
+        }
+    }
+
+    // カウントダウン音声を停止
+    public void StopCountdownSound()
+    {
+        if (countdownAudioSource != null && countdownAudioSource.isPlaying)
+        {
+            countdownAudioSource.Stop();
+            Debug.Log("カウントダウン音声停止");
+        }
+    }
+
+    // カウントダウン音量設定
+    public void SetCountdownVolume(float volume)
+    {
+        if (countdownAudioSource != null)
+        {
+            countdownAudioSource.volume = Mathf.Clamp01(volume);
         }
     }
 }

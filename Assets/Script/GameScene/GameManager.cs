@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     private float currentTime; // 残り時間を保持する変数
     private bool isGameActive; // ゲームがプレイ中かどうかを判定するフラグ
     private bool isTimerPaused = false; // タイマーが一時停止中かどうかを判定するフラグ
+    private bool isEndCountdownActive = false; // 終了カウントダウンが実行中かどうかを判定するフラグ
 
     public static GameManager Instance;  // ★追加：誰でもアクセスできる
 
@@ -61,26 +62,23 @@ public class GameManager : MonoBehaviour
     private float comboGaugeDecreaseRate = 2f; // フィーバー中のゲージ減少レート（1秒あたり）
     
     private Coroutine feverGaugeDecreaseCoroutine; // ゲージ減少コルーチン
+    private bool hasGameStarted = false; // ゲームが実際に開始されたかどうか
+    private bool endCountdownStarted = false; // 終了カウントダウンが開始されたかどうか
+
     // ゲーム開始時に呼ばれる
     void Start()
     {
         // FPSを60に固定
         Application.targetFrameRate = 60;
-        
+
         // スコアの初期化
         currentScore = 0;
         UpdateScoreText();
 
         // --- タイマーの初期化 ---
         currentTime = timeLimit;
-        isGameActive = true;
-
-        // ゲーム開始時にBGMを開始
-        if (BGMManager.Instance != null)
-        {
-            BGMManager.Instance.StartNormalBGM();
-            Debug.Log("ゲーム開始 - 通常BGMを開始");
-        }
+        isGameActive = false; // カウントダウン中はまだゲーム非アクティブ
+        hasGameStarted = false;
 
         // ゲージの初期化（幅0に）
         if (comboGauge != null)
@@ -89,6 +87,94 @@ public class GameManager : MonoBehaviour
             rect.sizeDelta = new Vector2(0f, rect.sizeDelta.y);
         }
 
+        // カウントダウン開始
+        StartGameCountdown();
+    }
+
+    // ゲーム開始カウントダウンを開始
+    private void StartGameCountdown()
+    {
+        if (CountdownManager.Instance != null)
+        {
+            CountdownManager.Instance.StartGameCountdown(() => {
+                // カウントダウン完了後にゲーム開始
+                StartActualGame();
+            });
+        }
+        else
+        {
+            Debug.LogWarning("CountdownManagerが見つかりません - カウントダウンなしでゲーム開始");
+            StartActualGame();
+        }
+    }
+
+    // 実際のゲーム開始処理
+    private void StartActualGame()
+    {
+        isGameActive = true;
+        hasGameStarted = true;
+
+        // ゲーム開始時にBGMを開始
+        if (BGMManager.Instance != null)
+        {
+            BGMManager.Instance.StartNormalBGM();
+            Debug.Log("ゲーム開始 - 通常BGMを開始");
+        }
+
+        // TargetSpawnerにスポーン開始を通知
+        TargetSpawner spawner = FindFirstObjectByType<TargetSpawner>();
+        if (spawner != null)
+        {
+            spawner.StartGameSpawning();
+            Debug.Log("TargetSpawnerにスポーン開始を通知");
+        }
+
+        Debug.Log("ゲーム実際の開始！");
+    }
+
+    // ゲーム終了カウントダウンを開始
+    private void StartEndCountdown()
+    {
+        if (CountdownManager.Instance != null)
+        {
+            CountdownManager.Instance.StartEndCountdown(() => {
+                // カウントダウン完了後にゲーム終了
+                EndGame();
+            });
+        }
+        else
+        {
+            Debug.LogWarning("CountdownManagerが見つかりません - カウントダウンなしでゲーム終了");
+            EndGame();
+        }
+    }
+
+    // ゲーム終了処理
+    private void EndGame()
+    {
+        isGameActive = false; // ゲームを非アクティブにする
+        isEndCountdownActive = false; // 終了カウントダウンを終了
+        Debug.Log("ゲーム終了！");
+
+        // ゲーム終了時にすべてのBGMを完全停止
+        if (BGMManager.Instance != null)
+        {
+            BGMManager.Instance.StopNormalBGM();
+            BGMManager.Instance.StopFeverBGM();
+            BGMManager.Instance.StopCountdownSound();
+            Debug.Log("ゲーム終了 - すべてのBGMを停止");
+        }
+
+        // ScreenManagerを探してResultSceneへ遷移
+        ScreenManager screenManager = FindFirstObjectByType<ScreenManager>();
+        if (screenManager != null)
+        {
+            screenManager.GoToResultScene();
+        }
+        else
+        {
+            Debug.LogError("ScreenManagerが見つかりませんでした");
+        }
     }
 
     // 毎フレーム呼ばれる
@@ -101,40 +187,39 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // タイマーが一時停止中でなければ時間を減らしていく
-        if (!isTimerPaused)
+        // タイマーが一時停止中、または終了カウントダウン中でなければ時間を減らしていく
+        if (!isTimerPaused && !isEndCountdownActive)
         {
             currentTime -= Time.deltaTime;
+        }
+
+        // 残り時間が10秒以下になったら終了カウントダウンを開始
+        if (currentTime <= 10f && !endCountdownStarted && hasGameStarted)
+        {
+            endCountdownStarted = true;
+            isEndCountdownActive = true;
+            // タイマーを10秒にセット
+            currentTime = 10f;
+            StartEndCountdown();
         }
 
         // もし残り時間が0以下になったら
         if (currentTime <= 0)
         {
             currentTime = 0; // マイナス表示を防ぐ
-            isGameActive = false; // ゲームを非アクティブにする
-            Debug.Log("ゲーム終了！");
-            
-            // ゲーム終了時にすべてのBGMを完全停止
-            if (BGMManager.Instance != null)
+
+            // 終了カウントダウンが開始されていない場合は即座に終了
+            if (!endCountdownStarted)
             {
-                BGMManager.Instance.StopNormalBGM();
-                BGMManager.Instance.StopFeverBGM();
-                Debug.Log("ゲーム終了 - すべてのBGMを停止");
-            }
-            
-            // ScreenManagerを探してResultSceneへ遷移
-            ScreenManager screenManager = FindFirstObjectByType<ScreenManager>();
-            if (screenManager != null)
-            {
-                screenManager.GoToResultScene();
-            }
-            else
-            {
-                Debug.LogError("ScreenManagerが見つかりませんでした");
+                EndGame();
             }
         }
 
-        UpdateTimerText(); // 画面のタイマー表示を更新
+        // 終了カウントダウン中でなければタイマー表示を更新
+        if (!isEndCountdownActive)
+        {
+            UpdateTimerText(); // 画面のタイマー表示を更新
+        }
     }
 
 
@@ -169,6 +254,17 @@ public class GameManager : MonoBehaviour
 
             // "00:00" の形式でテキストを表示
             timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        }
+    }
+
+    // CountdownManagerからタイマー表示を直接設定するメソッド
+    public void SetTimerDisplay(int seconds)
+    {
+        if (timerText != null)
+        {
+            int minutes = seconds / 60;
+            int secs = seconds % 60;
+            timerText.text = string.Format("{0:00}:{1:00}", minutes, secs);
         }
     }
 

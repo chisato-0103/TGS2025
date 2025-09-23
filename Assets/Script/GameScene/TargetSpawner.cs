@@ -20,6 +20,7 @@ public class TargetSpawner : MonoBehaviour
     
     private bool isFeverMode = false; // フィーバーモードフラグ
     private bool isVideoPlaying = false; // フィーバー動画再生中フラグ
+    private bool isGameStarted = false; // ゲーム開始フラグ
     
     // --- フィーバータイム関連の変数 ---
     [SerializeField]
@@ -42,8 +43,8 @@ public class TargetSpawner : MonoBehaviour
     {
         while (true)
         {
-            // フィーバーモード中または動画再生中はスポーンを停止
-            if (!isFeverMode && !isVideoPlaying)
+            // フィーバーモード中、動画再生中、またはゲーム開始前はスポーンを停止
+            if (!isFeverMode && !isVideoPlaying && isGameStarted)
             {
                 // --- スポーンするプレハブをランダムに選択 ---
                 // 0から、登録されたプレハブの数-1までの間で、ランダムな整数を一つ選ぶ
@@ -102,6 +103,13 @@ public class TargetSpawner : MonoBehaviour
     {
         isVideoPlaying = false;
         Debug.Log("TargetSpawner スポーン再開");
+    }
+
+    // ゲーム開始時のスポーン開始
+    public void StartGameSpawning()
+    {
+        isGameStarted = true;
+        Debug.Log("TargetSpawner ゲーム開始 - スポーン開始");
     }
     
     // フィーバーモード終了
