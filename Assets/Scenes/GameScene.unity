@@ -190,7 +190,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -244,15 +244,15 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 97749163}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 90}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 90.833336}
+  m_LocalScale: {x: 0.0462963, y: 0.0462963, z: 0.009259259}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 161224720}
+  m_Father: {fileID: 473613976}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -633, y: 848}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 5.7407227, y: -3.3796234}
   m_SizeDelta: {x: 600, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &161224719
@@ -287,9 +287,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 473613976}
-  - {fileID: 1394282779}
-  - {fileID: 97749166}
-  - {fileID: 1309738124}
+  - {fileID: 984924987}
+  - {fileID: 1393896860}
   - {fileID: 1289523334}
   - {fileID: 1469668221}
   m_Father: {fileID: 0}
@@ -328,12 +327,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -603,7 +602,8 @@ Transform:
   m_LocalPosition: {x: -757, y: 381, z: -9720}
   m_LocalScale: {x: 21.6, y: 21.6, z: 108}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 97749166}
   m_Father: {fileID: 161224720}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &473613977
@@ -905,6 +905,8 @@ MonoBehaviour:
   normalBgmAudioSource: {fileID: 784551097}
   feverBgmAudioSource: {fileID: 784551099}
   countdownAudioSource: {fileID: 784551101}
+  seAudioSource: {fileID: 1557620433}
+  feverSoundEffect: {fileID: 0}
 --- !u!82 &784551101
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1064,7 +1066,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreText: {fileID: 1394282777}
   timerText: {fileID: 97749164}
-  timeLimit: 60
+  timeLimit: 120
   comboGauge: {fileID: 1606794112}
   maxCombo: 10
   preEffectVideoPlayer: {fileID: 1183436873}
@@ -1072,8 +1074,8 @@ MonoBehaviour:
   feverVideoPlayer: {fileID: 800709876}
   feverVideoUI: {fileID: 1289523331}
   feverVideoClips:
-  - {fileID: 32900000, guid: c0f7dbf99fdaa4bfb879d8d1b9d3fd2f, type: 3}
-  - {fileID: 32900000, guid: bb104f525718c4b469bbc07111cd960f, type: 3}
+  - {fileID: 32900000, guid: 5814ac3eed6d4414f99a5dd224a82fae, type: 3}
+  - {fileID: 32900000, guid: 61bb2e39acc8947ddbc2b2808fd64817, type: 3}
   comboGaugeDecreaseRate: 0.8
 --- !u!114 &800709875
 MonoBehaviour:
@@ -1379,12 +1381,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 984924985}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.77, y: -4.29, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 731.16, y: -463.32, z: -9720}
+  m_LocalScale: {x: 21.6, y: 21.6, z: 108}
   m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
+  m_Children:
+  - {fileID: 1394282779}
+  m_Father: {fileID: 161224720}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1183436872
 GameObject:
@@ -1522,12 +1525,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -1752,18 +1755,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1309738123}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 90}
+  m_LocalScale: {x: 0.061728388, y: 0.061728388, z: 0.009259259}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1747902551}
   - {fileID: 1606794113}
-  m_Father: {fileID: 161224720}
+  m_Father: {fileID: 1393896860}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -38.99994, y: -28}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1393896858
@@ -1846,12 +1849,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1393896858}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.85, y: 4.2, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 631.8, y: 453.5999, z: -9720}
+  m_LocalScale: {x: 16.2, y: 16.2, z: 108}
   m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
+  m_Children:
+  - {fileID: 1309738124}
+  m_Father: {fileID: 161224720}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1394282776
 GameObject:
@@ -1978,15 +1982,15 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1394282776}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 90.000275}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 90.833336}
+  m_LocalScale: {x: 0.0462963, y: 0.0462963, z: 0.009259259}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 161224720}
+  m_Father: {fileID: 984924987}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1626, y: -842}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -3.0166626, y: 7.468506}
   m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1438582399
@@ -2441,9 +2445,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1309738124}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 345, y: 448}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 295, y: 398}
   m_SizeDelta: {x: 190, y: 10}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!1 &1957789418
@@ -2494,12 +2498,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -2583,7 +2587,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 300, y: 70}
+  m_SizeDelta: {x: 1000, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1999201057
 CanvasRenderer:
@@ -2640,8 +2644,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
-  m_fontSizeBase: 100
+  m_fontSize: 300
+  m_fontSizeBase: 300
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2724,7 +2728,7 @@ MonoBehaviour:
   - 3
   - 2
   - 1
-  - Start
+  - START
   endCountdownClips:
   - {fileID: 8300000, guid: 878a823aea39d4caf895be3c7411301d, type: 3}
   - {fileID: 8300000, guid: 1af679d28147d4976a75614d29cbbe76, type: 3}
@@ -2778,8 +2782,6 @@ SceneRoots:
   - {fileID: 800709873}
   - {fileID: 1438582401}
   - {fileID: 784551098}
-  - {fileID: 984924987}
-  - {fileID: 1393896860}
   - {fileID: 1183436874}
   - {fileID: 1210463212}
   - {fileID: 1557620434}
