@@ -22,12 +22,43 @@ public class BGMManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+            // ビルド時のデバッグ用：AudioSourceの初期化確認
+            ValidateAudioSources();
         }
         else
         {
             Destroy(gameObject);
             return;
         }
+    }
+
+    // AudioSourceの初期化状態を確認
+    private void ValidateAudioSources()
+    {
+        Debug.Log("=== BGMManager AudioSource 初期化確認 ===");
+
+        if (normalBgmAudioSource == null)
+            Debug.LogError("normalBgmAudioSource が設定されていません！");
+        else
+            Debug.Log($"normalBgmAudioSource OK - Clip: {(normalBgmAudioSource.clip != null ? normalBgmAudioSource.clip.name : "None")}");
+
+        if (feverBgmAudioSource == null)
+            Debug.LogError("feverBgmAudioSource が設定されていません！");
+        else
+            Debug.Log($"feverBgmAudioSource OK - Clip: {(feverBgmAudioSource.clip != null ? feverBgmAudioSource.clip.name : "None")}");
+
+        if (countdownAudioSource == null)
+            Debug.LogError("countdownAudioSource が設定されていません！");
+        else
+            Debug.Log($"countdownAudioSource OK");
+
+        if (seAudioSource == null)
+            Debug.LogError("seAudioSource が設定されていません！");
+        else
+            Debug.Log($"seAudioSource OK - フィーバー効果音: {(feverSoundEffect != null ? feverSoundEffect.name : "None")}");
+
+        Debug.Log("=== BGMManager 初期化確認完了 ===");
     }
 
     void Start()
@@ -41,12 +72,15 @@ public class BGMManager : MonoBehaviour
     {
         if (normalBgmAudioSource != null && normalBgmAudioSource.clip != null)
         {
+            // ビルド環境でのトラブル回避のため、明示的にAudioSourceを有効化
+            normalBgmAudioSource.enabled = true;
+            normalBgmAudioSource.volume = Mathf.Clamp01(normalBgmAudioSource.volume);
             normalBgmAudioSource.Play();
-            Debug.Log("通常BGM開始: " + normalBgmAudioSource.clip.name);
+            Debug.Log($"通常BGM開始: {normalBgmAudioSource.clip.name} - Volume: {normalBgmAudioSource.volume} - Playing: {normalBgmAudioSource.isPlaying}");
         }
         else
         {
-            Debug.LogWarning("通常BGM AudioSourceまたはAudioClipが設定されていません");
+            Debug.LogError($"通常BGM再生失敗 - AudioSource: {normalBgmAudioSource != null} - AudioClip: {(normalBgmAudioSource != null && normalBgmAudioSource.clip != null)}");
         }
     }
 
@@ -140,13 +174,23 @@ public class BGMManager : MonoBehaviour
     {
         if (countdownAudioSource != null && clip != null)
         {
+            // ビルド環境での音声再生を確実にするため、設定を明示的に行う
+            countdownAudioSource.enabled = true;
+            countdownAudioSource.volume = Mathf.Clamp01(countdownAudioSource.volume);
             countdownAudioSource.clip = clip;
             countdownAudioSource.Play();
-            Debug.Log("カウントダウン音声再生: " + clip.name);
+            Debug.Log($"カウントダウン音声再生: {clip.name} - Volume: {countdownAudioSource.volume} - Playing: {countdownAudioSource.isPlaying}");
+
+            // 再生が開始されない場合のフォールバック
+            if (!countdownAudioSource.isPlaying)
+            {
+                Debug.LogWarning("カウントダウン音声の再生が開始されませんでした。PlayOneShot を試行します。");
+                countdownAudioSource.PlayOneShot(clip);
+            }
         }
         else
         {
-            Debug.LogWarning("カウントダウン AudioSourceまたはAudioClipが設定されていません");
+            Debug.LogError($"カウントダウン音声再生失敗 - AudioSource: {countdownAudioSource != null} - AudioClip: {clip != null}");
         }
     }
 
@@ -174,12 +218,15 @@ public class BGMManager : MonoBehaviour
     {
         if (seAudioSource != null && feverSoundEffect != null)
         {
+            // ビルド環境での効果音再生を確実にする
+            seAudioSource.enabled = true;
+            seAudioSource.volume = Mathf.Clamp01(seAudioSource.volume);
             seAudioSource.PlayOneShot(feverSoundEffect);
-            Debug.Log("フィーバー効果音再生: " + feverSoundEffect.name);
+            Debug.Log($"フィーバー効果音再生: {feverSoundEffect.name} - Volume: {seAudioSource.volume}");
         }
         else
         {
-            Debug.LogWarning("効果音 AudioSourceまたはフィーバー効果音が設定されていません");
+            Debug.LogError($"フィーバー効果音再生失敗 - SEAudioSource: {seAudioSource != null} - FeverSE: {feverSoundEffect != null}");
         }
     }
 

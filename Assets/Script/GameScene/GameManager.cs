@@ -305,6 +305,9 @@ public class GameManager : MonoBehaviour
         // クロマキー透過シェーダーとマテリアルの初期化
         InitializeChromaKeyMaterial();
 
+        // ビルド時のデバッグ用：VideoPlayerとUIの初期化確認
+        ValidateVideoComponents();
+
         // Singletonの設定
         Instance = this;
     }
@@ -685,6 +688,55 @@ public class GameManager : MonoBehaviour
             // 準備失敗時はフィーバー終了処理を実行
             OnFeverVideoEnd(feverVideoPlayer);
         }
+    }
+
+    // VideoPlayerとUIコンポーネントの初期化状態を確認
+    private void ValidateVideoComponents()
+    {
+        Debug.Log("=== GameManager VideoPlayer/UI 初期化確認 ===");
+
+        // フィーバー動画関連
+        if (feverVideoPlayer == null)
+            Debug.LogError("feverVideoPlayer が設定されていません！");
+        else
+        {
+            Debug.Log($"feverVideoPlayer OK - RenderMode: {feverVideoPlayer.renderMode}");
+            Debug.Log($"フィーバー動画クリップ数: {(feverVideoClips != null ? feverVideoClips.Length : 0)}");
+            if (feverVideoClips != null && feverVideoClips.Length > 0)
+            {
+                for (int i = 0; i < feverVideoClips.Length; i++)
+                {
+                    Debug.Log($"  Clip[{i}]: {(feverVideoClips[i] != null ? feverVideoClips[i].name : "NULL")}");
+                }
+            }
+        }
+
+        if (feverVideoUI == null)
+            Debug.LogError("feverVideoUI (FeverVideoDisplay) が設定されていません！");
+        else
+        {
+            var rawImage = feverVideoUI.GetComponent<UnityEngine.UI.RawImage>();
+            Debug.Log($"feverVideoUI OK - RawImage: {(rawImage != null ? "あり" : "なし")}");
+        }
+
+        // 透過エフェクト動画関連
+        if (preEffectVideoPlayer == null)
+            Debug.LogError("preEffectVideoPlayer が設定されていません！");
+        else
+            Debug.Log($"preEffectVideoPlayer OK - RenderMode: {preEffectVideoPlayer.renderMode}");
+
+        if (preEffectVideoUI == null)
+            Debug.LogError("preEffectVideoUI が設定されていません！");
+        else
+            Debug.Log("preEffectVideoUI OK");
+
+        // BGMManager確認
+        if (BGMManager.Instance == null)
+            Debug.LogError("BGMManager.Instance が見つかりません！カウントダウン音声とフィーバー効果音が再生されません！");
+        else
+            Debug.Log("BGMManager.Instance OK");
+
+        Debug.Log("=== GameManager 初期化確認完了 ===");
     }
 
     // フィーバー動画にクロマキーマテリアルを適用
