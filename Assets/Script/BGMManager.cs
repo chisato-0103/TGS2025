@@ -8,6 +8,10 @@ public class BGMManager : MonoBehaviour
     private AudioSource feverBgmAudioSource; // フィーバーBGM用のAudioSource
     [SerializeField]
     private AudioSource countdownAudioSource; // カウントダウン用のAudioSource
+    [SerializeField]
+    private AudioSource seAudioSource; // 効果音用のAudioSource
+    [SerializeField]
+    private AudioClip feverSoundEffect; // フィーバー効果音のAudioClip
 
     public static BGMManager Instance;
 
@@ -162,6 +166,43 @@ public class BGMManager : MonoBehaviour
         if (countdownAudioSource != null)
         {
             countdownAudioSource.volume = Mathf.Clamp01(volume);
+        }
+    }
+
+    // フィーバー効果音を再生
+    public void PlayFeverSoundEffect()
+    {
+        if (seAudioSource != null && feverSoundEffect != null)
+        {
+            seAudioSource.PlayOneShot(feverSoundEffect);
+            Debug.Log("フィーバー効果音再生: " + feverSoundEffect.name);
+        }
+        else
+        {
+            Debug.LogWarning("効果音 AudioSourceまたはフィーバー効果音が設定されていません");
+        }
+    }
+
+    // 指定した効果音を再生
+    public void PlaySoundEffect(AudioClip clip)
+    {
+        if (seAudioSource != null && clip != null)
+        {
+            seAudioSource.PlayOneShot(clip);
+            Debug.Log("効果音再生: " + clip.name);
+        }
+        else
+        {
+            Debug.LogWarning("効果音 AudioSourceまたはAudioClipが設定されていません");
+        }
+    }
+
+    // 効果音音量設定
+    public void SetSEVolume(float volume)
+    {
+        if (seAudioSource != null)
+        {
+            seAudioSource.volume = Mathf.Clamp01(volume);
         }
     }
 }

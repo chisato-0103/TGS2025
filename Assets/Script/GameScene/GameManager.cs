@@ -54,13 +54,17 @@ public class GameManager : MonoBehaviour
     private VideoClip[] feverVideoClips; // フィーバー動画の配列（Inspector で設定）
     private int feverCount = 0; // フィーバー発生回数
 
+    // --- 透過シェーダー関連の変数 ---
+    private Material chromaKeyMaterial; // クロマキー透過用マテリアル
+    private Shader chromaKeyShader; // クロマキー透過用シェーダー
+
     private bool isFeverActive = false; // フィーバーモードが有効かどうか
 
 
     // --- フィーバータイム関連の変数 ---
     [SerializeField]
     private float comboGaugeDecreaseRate = 2f; // フィーバー中のゲージ減少レート（1秒あたり）
-    
+
     private Coroutine feverGaugeDecreaseCoroutine; // ゲージ減少コルーチン
     private bool hasGameStarted = false; // ゲームが実際に開始されたかどうか
     private bool endCountdownStarted = false; // 終了カウントダウンが開始されたかどうか
@@ -277,18 +281,30 @@ public class GameManager : MonoBehaviour
         // コンボゲージの幅を最大コンボ数で割って1コンボあたりの幅をcombo1に入れておく
         combo1 = comboGauge.GetComponent<RectTransform>().sizeDelta.x / maxCombo;
         Debug.Log("combo1初期化: " + combo1 + " maxCombo: " + maxCombo + " ゲージ初期幅: " + comboGauge.GetComponent<RectTransform>().sizeDelta.x);
-        
+
         // VideoPlayerの設定を初期化時に行う
         if (feverVideoPlayer != null)
         {
+            // ビルド時の動画再生用設定
+            feverVideoPlayer.source = VideoSource.VideoClip;
+            feverVideoPlayer.audioOutputMode = VideoAudioOutputMode.None; // 動画の音声は使わない
+            feverVideoPlayer.renderMode = VideoRenderMode.RenderTexture;
+            feverVideoPlayer.skipOnDrop = true; // フレームドロップ時はスキップ
             feverVideoPlayer.Prepare();
         }
-        
+
         if (preEffectVideoPlayer != null)
         {
+            preEffectVideoPlayer.source = VideoSource.VideoClip;
+            preEffectVideoPlayer.audioOutputMode = VideoAudioOutputMode.None;
+            preEffectVideoPlayer.renderMode = VideoRenderMode.RenderTexture;
+            preEffectVideoPlayer.skipOnDrop = true;
             preEffectVideoPlayer.Prepare();
         }
-        
+
+        // クロマキー透過シェーダーとマテリアルの初期化
+        InitializeChromaKeyMaterial();
+
         // Singletonの設定
         Instance = this;
     }
@@ -301,7 +317,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("フィーバーモード中のためゲージ増加をスキップ");
             return;
         }
-        
+
         // combo値分ゲージを増やす
         currentCombo += combo;
         float addWidth = combo1 * combo; // 追加するコンボ分だけの幅を計算
@@ -317,7 +333,7 @@ public class GameManager : MonoBehaviour
         // ゲージ幅を半分に
         nowSize.x *= 0.5f;
         comboGauge.GetComponent<RectTransform>().sizeDelta = nowSize;
-        
+
         // ゲージ幅に対応するコンボ数を計算してcurrentComboに設定
         currentCombo = Mathf.RoundToInt(nowSize.x / combo1);
         Debug.Log("Combo Reset: " + currentCombo);
@@ -328,14 +344,14 @@ public class GameManager : MonoBehaviour
         // 現在のゲージ幅取得
         Vector2 nowSize = comboGauge.GetComponent<RectTransform>().sizeDelta;
         Debug.Log("ゲージ増加前: " + nowSize.x + " 追加幅: " + addWidth);
-        
+
         // ゲージの幅を加算
         nowSize.x += addWidth;
         // 最大幅を超えないように制限
         float maxWidth = combo1 * maxCombo;
         bool wasMaxBefore = nowSize.x - addWidth >= maxWidth; // 加算前に既に最大だったか
         Debug.Log("最大幅: " + maxWidth + " 現在幅: " + nowSize.x + " 加算前に最大だった: " + wasMaxBefore);
-        
+
         if (nowSize.x > maxWidth) nowSize.x = maxWidth;
         // ゲージに反映
         comboGauge.GetComponent<RectTransform>().sizeDelta = nowSize;
@@ -424,6 +440,13 @@ public class GameManager : MonoBehaviour
         feverCount++; // フィーバー回数をカウントアップ
         Debug.Log($"フィーバーモード開始！（{feverCount}回目）");
 
+        // 2回目以降のフィーバーで効果音を再生
+        if (feverCount >= 2 && BGMManager.Instance != null)
+        {
+            BGMManager.Instance.PlayFeverSoundEffect();
+            Debug.Log("2回目以降のフィーバー効果音を再生");
+        }
+
         // フィーバー動画中はタイマーを一時停止
         isTimerPaused = true;
         Debug.Log("タイマー一時停止");
@@ -447,23 +470,32 @@ public class GameManager : MonoBehaviour
             {
                 feverVideoPlayer.clip = selectedClip;
                 Debug.Log($"フィーバー動画を設定: {selectedClip.name}");
-            }
 
-            feverVideoPlayer.isLooping = false; // ループしないように設定
-            feverVideoPlayer.Play();
+                // フィーバー回数に応じてクロマキー透過を適用
+                ApplyChromaKeyToFeverVideo(feverCount);
+
+                // 動画準備と再生を非同期で実行
+                StartCoroutine(PrepareAndPlayFeverVideo());
+            }
+            else
+            {
+                Debug.LogError("フィーバー動画クリップが取得できませんでした");
+                // 動画再生失敗時はフィーバー終了処理をスキップして通常状態に戻る
+                OnFeverVideoEnd(feverVideoPlayer);
+            }
         }
 
         // 動画終了時のコールバックを設定（既存のコールバックを一度クリア）
         feverVideoPlayer.loopPointReached -= OnFeverVideoEnd; // 重複登録防止
         feverVideoPlayer.loopPointReached += OnFeverVideoEnd;
-        
+
         // TargetSpawnerにフィーバー開始を通知
         TargetSpawner spawner = FindFirstObjectByType<TargetSpawner>();
         if (spawner != null)
         {
             spawner.StartFeverMode();
         }
-        
+
         // コンボゲージ減少は動画終了後に開始（動画終了コールバックで開始）
     }
 
@@ -509,9 +541,9 @@ public class GameManager : MonoBehaviour
         {
             BGMManager.Instance.StartFeverBGM();
         }
-        
+
         feverGaugeDecreaseCoroutine = StartCoroutine(DecreaseComboGaugeDuringFever());
-        
+
         // TargetSpawnerにfemale-gorilla生成開始を通知
         TargetSpawner spawner = FindFirstObjectByType<TargetSpawner>();
         if (spawner != null)
@@ -529,7 +561,7 @@ public class GameManager : MonoBehaviour
             preEffectVideoPlayer.Stop();
             OnPreEffectVideoEnd(preEffectVideoPlayer);
         }
-        
+
         // フィーバー動画再生中の場合
         if (feverVideoPlayer != null && feverVideoPlayer.isPlaying)
         {
@@ -539,25 +571,25 @@ public class GameManager : MonoBehaviour
     }
 
 
-    
+
     // フィーバーモード終了処理
     private void EndFeverMode()
     {
         isFeverActive = false;
-        
+
         // ゲージ減少を停止
         if (feverGaugeDecreaseCoroutine != null)
         {
             StopCoroutine(feverGaugeDecreaseCoroutine);
             feverGaugeDecreaseCoroutine = null;
         }
-        
+
         // フィーバータイム終了時にBGMを元に戻す
         if (BGMManager.Instance != null)
         {
             BGMManager.Instance.EndFeverMode();
         }
-        
+
         // TargetSpawnerにフィーバー終了を通知
         TargetSpawner spawner = FindFirstObjectByType<TargetSpawner>();
         if (spawner != null)
@@ -565,8 +597,8 @@ public class GameManager : MonoBehaviour
             spawner.EndFeverMode();
         }
     }
-    
-    
+
+
     // フィーバータイム中のコンボゲージ減少
     private IEnumerator DecreaseComboGaugeDuringFever()
     {
@@ -576,27 +608,110 @@ public class GameManager : MonoBehaviour
             Vector2 nowSize = comboGauge.GetComponent<RectTransform>().sizeDelta;
             float decreaseAmount = combo1 * comboGaugeDecreaseRate * Time.deltaTime;
             nowSize.x -= decreaseAmount;
-            
+
             // 0以下になったらフィーバー終了
             if (nowSize.x <= 0)
             {
                 nowSize.x = 0;
                 currentCombo = 0;
                 comboGauge.GetComponent<RectTransform>().sizeDelta = nowSize;
-                
+
                 Debug.Log("ゲージが完全に0に到達 - フィーバー終了");
                 // ゲージが0になったのでフィーバー終了
                 EndFeverMode();
                 break;
             }
-            
+
             // ゲージに反映
             comboGauge.GetComponent<RectTransform>().sizeDelta = nowSize;
-            
+
             // コンボ数を更新
             currentCombo = Mathf.RoundToInt(nowSize.x / combo1);
-            
+
             yield return null;
+        }
+    }
+
+    // クロマキー透過マテリアルの初期化
+    private void InitializeChromaKeyMaterial()
+    {
+        // シェーダーを検索して取得
+        chromaKeyShader = Shader.Find("Custom/ChromaKeyTransparent");
+
+        if (chromaKeyShader != null)
+        {
+            // シェーダーからマテリアルを作成
+            chromaKeyMaterial = new Material(chromaKeyShader);
+
+            // シェーダーのパラメーターを設定
+            chromaKeyMaterial.SetColor("_ChromaKey", Color.green); // グリーンを透過色に設定
+            chromaKeyMaterial.SetFloat("_Threshold", 0.1f); // 閾値
+            chromaKeyMaterial.SetFloat("_Smoothing", 0.1f); // スムージング
+
+            Debug.Log("クロマキーマテリアルが正常に初期化されました");
+        }
+        else
+        {
+            Debug.LogError("ChromaKeyTransparentシェーダーが見つかりません。シェーダーファイルがプロジェクトに正しくインポートされているか確認してください。");
+        }
+    }
+
+    // 動画の準備と再生を行うコルーチン
+    private IEnumerator PrepareAndPlayFeverVideo()
+    {
+        feverVideoPlayer.isLooping = false;
+
+        // 動画の準備を開始
+        feverVideoPlayer.Prepare();
+
+        // 動画の準備が完了するまで待機（最大5秒）
+        float timeout = 5f;
+        float timer = 0f;
+
+        while (!feverVideoPlayer.isPrepared && timer < timeout)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        if (feverVideoPlayer.isPrepared)
+        {
+            Debug.Log("フィーバー動画準備完了 - 再生開始");
+            feverVideoPlayer.Play();
+        }
+        else
+        {
+            Debug.LogError("フィーバー動画の準備がタイムアウトしました");
+            // 準備失敗時はフィーバー終了処理を実行
+            OnFeverVideoEnd(feverVideoPlayer);
+        }
+    }
+
+    // フィーバー動画にクロマキーマテリアルを適用
+    private void ApplyChromaKeyToFeverVideo(int feverCount)
+    {
+        if (feverVideoPlayer == null || chromaKeyMaterial == null || feverVideoUI == null) return;
+
+        // RawImageコンポーネントを取得
+        UnityEngine.UI.RawImage rawImage = feverVideoUI.GetComponent<UnityEngine.UI.RawImage>();
+        if (rawImage == null)
+        {
+            Debug.LogError("FeverVideoDisplayにRawImageコンポーネントが見つかりません");
+            return;
+        }
+
+        // 2回目以降のフィーバーでクロマキーマテリアルを適用
+        if (feverCount >= 2)
+        {
+            // RawImageにクロマキーマテリアルを適用
+            rawImage.material = chromaKeyMaterial;
+            Debug.Log("フィーバー動画にクロマキー透過マテリアルを適用しました");
+        }
+        else
+        {
+            // 1回目のフィーバーでは通常の描画（透過なし）
+            rawImage.material = null; // デフォルトマテリアルを使用
+            Debug.Log("1回目のフィーバー動画は通常描画です");
         }
     }
 }
