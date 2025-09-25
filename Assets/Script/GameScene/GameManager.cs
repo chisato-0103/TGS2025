@@ -287,7 +287,7 @@ public class GameManager : MonoBehaviour
         {
             // ビルド時の動画再生用設定
             feverVideoPlayer.source = VideoSource.VideoClip;
-            feverVideoPlayer.audioOutputMode = VideoAudioOutputMode.None; // 動画の音声は使わない
+            feverVideoPlayer.audioOutputMode = VideoAudioOutputMode.Direct; // 動画の音声を直接再生
             feverVideoPlayer.renderMode = VideoRenderMode.RenderTexture;
             feverVideoPlayer.skipOnDrop = true; // フレームドロップ時はスキップ
             feverVideoPlayer.Prepare();
@@ -296,7 +296,7 @@ public class GameManager : MonoBehaviour
         if (preEffectVideoPlayer != null)
         {
             preEffectVideoPlayer.source = VideoSource.VideoClip;
-            preEffectVideoPlayer.audioOutputMode = VideoAudioOutputMode.None;
+            preEffectVideoPlayer.audioOutputMode = VideoAudioOutputMode.Direct; // 動画の音声を直接再生
             preEffectVideoPlayer.renderMode = VideoRenderMode.RenderTexture;
             preEffectVideoPlayer.skipOnDrop = true;
             preEffectVideoPlayer.Prepare();
