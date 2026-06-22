@@ -1,4 +1,4 @@
-# Shoot of Love ~ハーレムゴリラ編~
+# Shoot of Love ハーレムゴリラ編
 
 東京ゲームショー2025 展示作品
 
